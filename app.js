@@ -8,7 +8,7 @@ const multer = require('multer');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes');
 const uploadMiddleware = require('./middleware/upload');
 
@@ -29,6 +29,8 @@ app.use(uploadMiddleware.array('images'));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productRouter);
+
+const createError = require('http-errors');
 
 app.use(function(req, res, next) {
   next(createError(404));
