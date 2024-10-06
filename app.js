@@ -11,6 +11,7 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes');
 const uploadMiddleware = require('./middleware/upload');
+const cartRouter = require('./routes/cartRoutes');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(uploadMiddleware.array('images'));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productRouter);
+app.use('/cart',cartRouter)
 
 const createError = require('http-errors');
 
@@ -45,4 +47,8 @@ app.use(function(err, req, res, next) {
 
 connectDB.connectDB();
 
+const port = 8888
+app.listen(port, () =>{
+  console.log(`${port}`)
+})
 module.exports = app;
