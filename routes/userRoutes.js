@@ -5,10 +5,12 @@ const authMiddleware = require('../middleware/auth');
 
 // User routes
 router.post('/register', userController.register);
-router.post('/verify', userController.verifyEmail); // Sử dụng verify thay cho verify-email
+router.post('/verify', userController.verifyEmail);
 router.post('/login', userController.login);
 
-// Áp dụng middleware xác thực cho các route bên dưới
+router.post('/forgot-password', userController.forgotPassword);
+router.post('/reset-password', userController.resetPassword);
+
 router.use(authMiddleware);
 router.put('/:id', userController.update);
 router.delete('/:id', userController.delete);

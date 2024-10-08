@@ -49,6 +49,18 @@ const userSchema = new mongoose.Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    verificationCode: { // Thêm thuộc tính verificationCode
+        type: String,
+        default: null
+    },
+    resetPasswordToken: { // Thêm thuộc tính resetPasswordToken
+        type: String,
+        default: null
+    },
+    resetPasswordExpires: { // Thêm thuộc tính resetPasswordExpires
+        type: Date,
+        default: null
     }
 });
 
