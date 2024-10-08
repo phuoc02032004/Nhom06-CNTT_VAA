@@ -47,25 +47,44 @@ exports.getCartByUserId = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const Product = require('../models/Product')
 
 exports.createCart = async (req, res) => {
+    const userId = req.body.user;
+    const products = req.body.products;
     try {
-        const newCart = new Cart(req.body);
-        const savedCart = await newCart.save();
-        res.status(201).json(savedCart);
+        let existingCart = await Cart.findOne({ user: userId });
+        if (existingCart) {
+            products.forEach(item => {
+                const existingProduct = existingCart.products.find(p => p.product.toString() === item.product);
+                if (existingProduct) {
+                    existingProduct.quantity += item.quantity;
+                } else {
+                    existingCart.products.push(item);
+                }
+            });
+            const updatedCart = await existingCart.save();
+            return res.status(200).json(updatedCart);
+        } else {
+            // Nếu giỏ hàng chưa tồn tại, tạo mới giỏ hàng
+            const newCart = new Cart(req.body);
+            const savedCart = await newCart.save();
+            return res.status(201).json(savedCart);
+        }
     } catch (error) {
         res.status(400).json({ error: error.message });
-
     }
 };
+
+
 exports.updateCart = async (req, res) => {
-    const cartId = req.query.id; 
+    const cartId = req.query.id;
     try {
         const updatedCart = await Cart.findByIdAndUpdate(cartId, req.body, { new: true });
         if (!updatedCart) {
             return res.status(404).json({ message: "Cart not found" });
         }
-        res.status(200).json(updatedCart); 
+        res.status(200).json(updatedCart);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
