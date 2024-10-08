@@ -32,6 +32,22 @@ exports.getById = async (req, res) => {
     }
 }
 
+exports.getCartByUserId = async (req, res) => {
+    const userId = req.query.id; // Lấy userId từ query params
+
+    try {
+        const cart = await Cart.find({ user: userId }).populate('products.product'); // Tìm giỏ hàng theo userId và kết nối với sản phẩm
+
+        if (!cart) {
+            return res.status(404).json({ message: "Cart not found for this user." });
+        }
+
+        res.status(200).json(cart);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 exports.createCart = async (req, res) => {
     try {
         const newCart = new Cart(req.body);

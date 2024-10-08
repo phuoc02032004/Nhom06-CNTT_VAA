@@ -8,13 +8,15 @@ router.get('/',cartController.getAll)
 
 router.get('/getBy',cartController.getById)
 
+router.get('/get_by_user',cartController.getCartByUserId)
+
 router.post('/',cartController.createCart)
 
 router.put('/', cartController.updateCart)
 
 router.delete('/',cartController.deleteCart)
 
-//router.get('/getBy',cartController.getByUserId)
+//router.get('/get_by_user',cartController.getByUserId)
 
 module.exports = router;
 
