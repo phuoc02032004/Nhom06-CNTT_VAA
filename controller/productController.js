@@ -63,11 +63,25 @@ exports.getProductById = async (req, res) => {
 
 exports.updateProduct = async (req, res) => {
     try {
+        const { id } = req.params;
+        const { images } = req.body; // Lấy mảng images từ request
+
+        // Upload ảnh mới lên Cloudinary
+        const uploadedImages = await Promise.all(
+            req.files.map((image, index) => {
+                const imageId = images[index].id;
+                return uploadImage(image, imageId).then(imageUrl => ({ url: imageUrl, id: imageId }));
+            })
+        );
+
         const updatedProduct = await Product.findByIdAndUpdate(
-            req.params.id,
-            req.body,
+            id,
+            {
+                images: uploadedImages
+            },
             { new: true }
         );
+
         if (!updatedProduct) {
             return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
         }
@@ -76,6 +90,7 @@ exports.updateProduct = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
 
 exports.deleteProduct = async (req, res) => {
     try {

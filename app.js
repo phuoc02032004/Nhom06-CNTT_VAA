@@ -10,6 +10,11 @@ require('dotenv').config();
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes');
+const categoryRouter = require('./routes/categoryRoutes');
+const orderRouter = require('./routes/orderRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
+const cartRouter = require('./routes/cartRoutes');
+
 const uploadMiddleware = require('./middleware/upload');
 
 const app = express();
@@ -29,6 +34,10 @@ app.use(uploadMiddleware.array('images'));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productRouter);
+app.use('/categories', categoryRouter);
+app.use('/orders', orderRouter);
+app.use('/reviews', reviewRouter);
+app.use('/carts', cartRouter);
 
 const createError = require('http-errors');
 
