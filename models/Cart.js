@@ -1,22 +1,34 @@
 const mongoose = require('mongoose')
+const formattedDate = () => new Date().toLocaleString('en-GB', { hour12: false });
 
 const cartSchema = new mongoose.Schema({
-    cart_id:{
-        type:'string'
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
-    product_id:{
-        type:'string'
+    products: [
+        {
+            product: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Product',
+                required: true
+            },
+            quantity: {
+                type: Number,
+                required: true
+            }
+        }
+    ],
+    createdAt: {
+        type: String,
+        default: formattedDate, // DD/MM/YYYY HH:mm:ss
     },
-    price:{
-        type:'number'
-    },
-    quantity:{
-        type:'number'
-    },
-    user_id:{
-        type:'string'
+    updatedAt: {
+        type: String,
+        default: formattedDate,
     }
-});
+})
 const Cart = mongoose.model('Cart', cartSchema);
 
 module.exports = Cart;

@@ -10,8 +10,13 @@ require('dotenv').config();
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes');
-const uploadMiddleware = require('./middleware/upload');
+const categoryRouter = require('./routes/categoryRoutes');
+const orderRouter = require('./routes/orderRoutes');
+const reviewRouter = require('./routes/reviewRoutes');
 const cartRouter = require('./routes/cartRoutes');
+
+const uploadMiddleware = require('./middleware/upload');
+
 
 const app = express();
 
@@ -30,15 +35,21 @@ app.use(uploadMiddleware.array('images'));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productRouter);
-app.use('/cart',cartRouter)
+
+
+app.use('/categories', categoryRouter);
+app.use('/orders', orderRouter);
+app.use('/reviews', reviewRouter);
+app.use('/carts', cartRouter);
+
 
 const createError = require('http-errors');
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
@@ -48,7 +59,7 @@ app.use(function(err, req, res, next) {
 connectDB.connectDB();
 
 const port = 8888
-app.listen(port, () =>{
+app.listen(port, () => {
   console.log(`${port}`)
 })
 module.exports = app;
