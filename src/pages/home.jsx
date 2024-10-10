@@ -4,6 +4,15 @@ import bracelet2 from "../assets/service_about_2.webp";
 import Slideshow from "../components/UI/Slideshow";
 import IngTC from "../components/UI/imghome";
 import ProductList from "../components/UI/productBestSL";
+import sp1 from "../assets/sp1.webp";
+import sp2 from "../assets/sp2.webp";
+import sp3 from "../assets/sp3.webp";
+
+const products = [
+  { image: sp1, title: "N BIG CIRCLE GEM LAUREL", price: "590.000" },
+  { image: sp2, title: "N DEER HORN", price: "490.000" },
+  { image: sp3, title: "ANK MULTI BUBBLE HEART OVAL CHAIN", price: "450.000" },
+];
 
 const Section = ({ children, className }) => (
   <section className={className}>{children}</section>
@@ -49,7 +58,6 @@ const BestsellerSection = () => (
     <h1 className="text-[#6b4226] text-3xl font-bold text-center mb-5">
       Bestseller
     </h1>
-    <ProductList />
   </Section>
 );
 
@@ -82,12 +90,13 @@ const FEEDBACKSection = () => (
 
 function App() {
   return (
-    <div className="container mx-auto max-w-screen-lg">
+    <div className="container mx-auto max-screen-lg">
       <ImageTextBlock />
       <QuoteSection />
       <Slideshow />
       <IngTC />
       <BestsellerSection />
+      <ProductList products={products} />
       <BlogSection />
       <AboutSection />
       <FEEDBACKSection />

@@ -1,20 +1,19 @@
 import React, { Fragment } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 
 import Header from "./header";
 import Footer from "./footer";
-import Routers from "../routers/router";
 import Slider from "./UI/Slideshow2";
-import Home from "../pages/home";
 
 const Layout = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+
   return (
     <Fragment>
       <Header />
-      <Slider />
-      <Home />
-      <div>
-        <Routers />
-      </div>
+      {isHomePage && <Slider />}
+      <Outlet />
       <Footer />
     </Fragment>
   );

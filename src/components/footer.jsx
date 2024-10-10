@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/logo-footer.webp"; // Thay thế logo đúng đường dẫn
+import logo from "../assets/logo-footer.webp";
 
 const Footer = () => {
   const date = new Date();
@@ -9,7 +9,6 @@ const Footer = () => {
   return (
     <footer className="bg-[#2c1409] text-white py-10">
       <div className="container mx-auto px-6">
-        {/* Phần trên cùng: Logo và đăng ký tư vấn */}
         <div className="flex flex-col md:flex-row justify-between items-center border-b border-gray-700 pb-6">
           <div className="mb-6 md:mb-0">
             <Link to="/">

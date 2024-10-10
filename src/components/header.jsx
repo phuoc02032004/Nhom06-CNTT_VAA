@@ -1,16 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/logo.webp";
 import DropdownMenu from "./UI/TrangsucMenu";
+import { FaOpencart } from "react-icons/fa";
 
 const Header = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
+  const [openMenu, setOpenMenu] = useState(null);
+  const closeTimeoutRef = useRef(null);
+
+  const toggleMenu = (menuName) => {
+    if (closeTimeoutRef.current) {
+      clearTimeout(closeTimeoutRef.current);
+      closeTimeoutRef.current = null;
+    }
+    setOpenMenu(menuName);
   };
-  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
-  const toggleAccountMenu = () => {
-    setIsAccountMenuOpen(!isAccountMenuOpen);
+
+  const handleMouseLeave = () => {
+    closeTimeoutRef.current = setTimeout(() => {
+      setOpenMenu(null);
+    }, 500);
   };
 
   return (
@@ -32,17 +41,16 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-4">
+          <FaOpencart className="text-brown-600 text-2xl" />
           <i className="ri-search-line text-brown-600 text-2xl"></i>
           <div
             className="relative"
-            onMouseEnter={toggleAccountMenu}
-            onMouseLeave={() =>
-              setTimeout(() => setIsAccountMenuOpen(false), 5000)
-            }
+            onMouseEnter={() => toggleMenu("account")}
+            onMouseLeave={handleMouseLeave}
           >
             <i className="ri-user-line text-brown-600 text-2xl cursor-pointer"></i>
 
-            {isAccountMenuOpen && (
+            {openMenu === "account" && (
               <div className="absolute right-0 mt-2 bg-white border border-gray-300 shadow-lg w-40 p-3 z-50">
                 <ul>
                   <li className="flex items-center space-x-2 text-gray-600 hover:text-black">
@@ -67,17 +75,58 @@ const Header = () => {
               TRANG CHỦ
             </Link>
           </li>
-          <li
-            className="relative"
-            onMouseEnter={toggleDropdown}
-            onMouseLeave={toggleDropdown}
-          >
-            <button className="text-gray-800 hover:text-gray-600">
-              TRANG SỨC
-              <span className="ml-1">&#9662;</span>
-            </button>
 
-            {isDropdownOpen && <DropdownMenu />}
+          {/* Dropdown "Trang Sức" */}
+          <li className="relative">
+            <div
+              onMouseEnter={() => toggleMenu("trangsuc")}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button className="text-gray-800 hover:text-gray-600">
+                <Link
+                  to="/product"
+                  className="text-gray-800 hover:text-gray-600"
+                >
+                  TRANG SỨC
+                </Link>
+                <span className="ml-1">&#9662;</span>
+              </button>
+
+              {openMenu === "trangsuc" && (
+                <div className="absolute z-50 bg-white shadow-lg p-3">
+                  <DropdownMenu />
+                </div>
+              )}
+            </div>
+          </li>
+
+          {/* Dropdown "Bài Viết" */}
+          <li className="relative">
+            <div
+              onMouseEnter={() => toggleMenu("baiviet")}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button className="text-gray-800 hover:text-gray-600">
+                BÀI VIẾT
+                <span className="ml-1">&#9662;</span>
+              </button>
+
+              {openMenu === "baiviet" && (
+                <div
+                  className="absolute z-50 bg-white shadow-lg p-3"
+                  style={{ minWidth: "150px" }}
+                >
+                  <ul className="text-brown-600">
+                    <li className=" pr-4 font-bold text-[#6b4226]  ">
+                      <Link to="/huong-dan-do-size">Tin Tức</Link>
+                    </li>
+                    <li className="pr-4 font-bold text-[#6b4226] ">
+                      <Link to="/bao-hanh-bao-quan">Sự Kiện</Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           </li>
 
           <li>
@@ -88,20 +137,54 @@ const Header = () => {
               BỘ SƯU TẬP
             </Link>
           </li>
-          <li>
-            <Link to="/blogs" className="text-gray-800 hover:text-gray-600">
-              BÀI VIẾT
-            </Link>
-          </li>
-          <li>
-            <Link to="/info" className="text-gray-800 hover:text-gray-600">
-              THÔNG TIN
-            </Link>
+
+          <li className="relative">
+            <div
+              onMouseEnter={() => toggleMenu("thongtin")}
+              onMouseLeave={handleMouseLeave}
+            >
+              <button className="text-gray-800 hover:text-gray-600">
+                THÔNG TIN
+                <span className="ml-1">&#9662;</span>
+              </button>
+
+              {openMenu === "thongtin" && (
+                <div
+                  className="absolute z-45 bg-white shadow-lg p-3"
+                  style={{ minWidth: "270px" }}
+                >
+                  <ul className="text-brown-600">
+                    <li className="pr-4 font-bold text-[#6b4226] ">
+                      <Link to="/huong-dan-do-size">HƯỚNG DẪN ĐO SIZE</Link>
+                    </li>
+                    <li> </li>
+                    <li className="pr-4 font-bold text-[#6b4226] ">
+                      <Link to="/bao-hanh-bao-quan">BẢO HÀNH & BẢO QUẢN</Link>
+                    </li>
+                    <li> </li>
+                    <li className="pr-4 font-bold text-[#6b4226] ">
+                      <Link to="/giao-hang-doi-hang">GIAO HÀNG & ĐỔI HÀNG</Link>
+                    </li>
+                    <li> </li>
+                    <li className="pr-4 font-bold text-[#6b4226] ">
+                      <Link to="/hinh-thuc-thanh-toan">
+                        HÌNH THỨC THANH TOÁN
+                      </Link>
+                    </li>
+                    <li> </li>
+                    <li className="pr-4 font-bold text-[#6b4226] ">
+                      <Link to="/dieu-kien-vip">ĐIỀU KIỆN VIP</Link>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
           </li>
 
           <li>
             <Link to="/contact" className="text-gray-800 hover:text-gray-600">
               LIÊN HỆ
+              <span className="ml-1">&#9662;</span>
             </Link>
           </li>
         </ul>
