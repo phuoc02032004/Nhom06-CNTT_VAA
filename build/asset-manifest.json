@@ -1,0 +1,43 @@
+{
+  "files": {
+    "main.css": "/static/css/main.92f97b3a.css",
+    "main.js": "/static/js/main.8fc25c2c.js",
+    "static/media/fa-solid-900.ttf": "/static/media/fa-solid-900.07ed6d5fa32c1d54af0f.ttf",
+    "static/media/slide_4.webp": "/static/media/slide_4.e05402b5bd472c1020fc.webp",
+    "static/media/slide_8.webp": "/static/media/slide_8.008caac09f4a07181a2c.webp",
+    "static/media/fa-brands-400.ttf": "/static/media/fa-brands-400.0ff70dcbf135d859ebf3.ttf",
+    "static/media/fa-solid-900.woff2": "/static/media/fa-solid-900.93f719f4d62bfa3e748c.woff2",
+    "static/media/fa-brands-400.woff2": "/static/media/fa-brands-400.bb8d5a145e22822103fb.woff2",
+    "static/media/slider_1.webp": "/static/media/slider_1.ee143c8cfcc67b419ea1.webp",
+    "static/media/slide_5.jpg": "/static/media/slide_5.8690ee5e867ed5151704.jpg",
+    "static/media/slider_2.webp": "/static/media/slider_2.3a4a5c308bf3a6062a79.webp",
+    "static/media/fa-regular-400.ttf": "/static/media/fa-regular-400.17a6e1aebccdbaa39e78.ttf",
+    "static/media/slider_3.webp": "/static/media/slider_3.d85da1da80125a4cb2f3.webp",
+    "static/media/slide_6.webp": "/static/media/slide_6.382e99acb1ec67745266.webp",
+    "static/media/anhtrangchu.webp": "/static/media/anhtrangchu.835edceb2fa038e04c9f.webp",
+    "static/media/slide_7.webp": "/static/media/slide_7.b4243cf17ad83d8dc601.webp",
+    "static/media/anhtrangchu3.webp": "/static/media/anhtrangchu3.05cb1553a22ce6069c6d.webp",
+    "static/media/sp2.webp": "/static/media/sp2.f5dea3a660252c0a820e.webp",
+    "static/media/sp3.webp": "/static/media/sp3.7183acc3a184c7df99f3.webp",
+    "static/media/sp1.webp": "/static/media/sp1.6a302015355850460462.webp",
+    "static/media/fa-regular-400.woff2": "/static/media/fa-regular-400.bc3722686635b5f86132.woff2",
+    "static/media/service_about_1.webp": "/static/media/service_about_1.d1ace04497343bcf3f5b.webp",
+    "static/media/fa-v4compatibility.ttf": "/static/media/fa-v4compatibility.0f6cb412603527bda691.ttf",
+    "static/media/anhtrangchu2.webp": "/static/media/anhtrangchu2.0d245eb1c58927359ca9.webp",
+    "static/media/logo.webp": "/static/media/logo.033482eefd7e75569503.webp",
+    "static/media/service_about_2.webp": "/static/media/service_about_2.55e71d0f1374e51eca37.webp",
+    "static/media/fa-v4compatibility.woff2": "/static/media/fa-v4compatibility.6cfec8414be20e2c3426.woff2",
+    "static/media/logo-footer.webp": "/static/media/logo-footer.63872f6274d0f65c113b.webp",
+    "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/index.html",
+    "main.92f97b3a.css.map": "/static/css/main.92f97b3a.css.map",
+    "main.8fc25c2c.js.map": "/static/js/main.8fc25c2c.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.92f97b3a.css",
+    "static/js/main.8fc25c2c.js"
+  ]
+}
