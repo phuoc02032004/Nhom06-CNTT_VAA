@@ -7,6 +7,7 @@ const cloudinaryConfig = require('./config/cloudinaryConfig');
 const multer = require('multer');
 require('dotenv').config();
 
+// Routes
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/userRoutes');
 const productRouter = require('./routes/productRoutes');
@@ -15,40 +16,43 @@ const orderRouter = require('./routes/orderRoutes');
 const reviewRouter = require('./routes/reviewRoutes');
 const cartRouter = require('./routes/cartRoutes');
 
+// Middleware
 const uploadMiddleware = require('./middleware/upload');
-
 
 const app = express();
 
+// Multer setup (for file uploads)
 const upload = multer({ dest: 'uploads/' });
 
+// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+// Middleware
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(uploadMiddleware.array('images'));
 
+// Enable CORS for all origins
+app.use(require('cors')());
+
+// Routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/products', productRouter);
-
-
 app.use('/categories', categoryRouter);
 app.use('/orders', orderRouter);
 app.use('/reviews', reviewRouter);
 app.use('/carts', cartRouter);
 
-
-const createError = require('http-errors');
-
+// Error handling
 app.use(function (req, res, next) {
   next(createError(404));
 });
 
+// Error handler
 app.use(function (err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -56,10 +60,15 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 
+// Connect to database
 connectDB.connectDB();
 
-const port = 8888
+// Define port
+const port = 3003;
+
+// Start server
 app.listen(port, () => {
-  console.log(`${port}`)
-})
+  console.log(`Server listening on port ${port}`);
+});
+
 module.exports = app;
