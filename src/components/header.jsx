@@ -41,7 +41,10 @@ const Header = () => {
         </div>
 
         <div className="flex items-center space-x-4">
-          <FaOpencart className="text-brown-600 text-2xl" />
+          <Link to="/cart">
+            <FaOpencart className="text-brown-600 text-2xl cursor-pointer" />
+          </Link>
+
           <i className="ri-search-line text-brown-600 text-2xl"></i>
           <div
             className="relative"
@@ -76,7 +79,6 @@ const Header = () => {
             </Link>
           </li>
 
-          {/* Dropdown "Trang Sức" */}
           <li className="relative">
             <div
               onMouseEnter={() => toggleMenu("trangsuc")}

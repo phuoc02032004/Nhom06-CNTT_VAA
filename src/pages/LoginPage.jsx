@@ -3,7 +3,6 @@ import { FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import log from "../assets/log.png";
 
-// Component Input Field
 const InputField = ({ label, type, placeholder }) => (
   <div>
     <label className="block text-brown-900 font-medium mb-1">
@@ -18,7 +17,6 @@ const InputField = ({ label, type, placeholder }) => (
   </div>
 );
 
-// Component Login Form
 const LoginFormSection = ({ onRegisterNavigate }) => (
   <div className="w-full max-w-md">
     <h2 className="text-2xl font-semibold text-brown-900 mb-4">
@@ -48,7 +46,6 @@ const LoginFormSection = ({ onRegisterNavigate }) => (
   </div>
 );
 
-// Component Forgot Password Form
 const ForgotPasswordForm = () => (
   <div className="w-full max-w-md">
     <h2 className="text-2xl font-semibold text-brown-900 mb-4">
@@ -89,7 +86,6 @@ function LoginForm() {
         <span className="font-semibold">Đăng nhập tài khoản</span>
       </div>
 
-      {/* Main Content */}
       <div className="flex justify-between items-start space-x-10">
         <LoginFormSection onRegisterNavigate={() => navigate("/register")} />
         <ForgotPasswordForm />

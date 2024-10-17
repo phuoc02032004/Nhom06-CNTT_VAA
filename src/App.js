@@ -7,6 +7,8 @@ import LoginForm from "./pages/LoginPage";
 import RegisterForm from "./pages/Register";
 import ProductList from "./pages/product";
 import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Payment from "./pages/payment";
 
 function App() {
   return (
@@ -15,9 +17,11 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="product" element={<ProductList />} />
-          <Route path="cart" element={<ProductList />} />
+          <Route path="cart" element={<Cart />} />
           <Route path="login" element={<LoginForm />} />
           <Route path="register" element={<RegisterForm />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="payment" element={<Payment />} />
         </Route>
       </Routes>
     </Router>

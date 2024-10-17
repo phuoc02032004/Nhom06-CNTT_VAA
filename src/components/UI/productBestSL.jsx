@@ -1,7 +1,6 @@
 import React, { memo } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-// Memoized IconButton to avoid unnecessary re-renders
 const IconButton = memo(({ icon, onClick }) => (
   <button
     className="shadow transition-transform transform hover:scale-110"
@@ -13,7 +12,6 @@ const IconButton = memo(({ icon, onClick }) => (
   </button>
 ));
 
-// ProductCard Component (reusable for any product data)
 const ProductCard = ({
   image,
   title,
