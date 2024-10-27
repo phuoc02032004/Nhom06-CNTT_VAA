@@ -1,7 +1,5 @@
-import React from "react";
-import sp1 from "../assets/sp1.webp";
-import sp2 from "../assets/sp2.webp";
-import sp3 from "../assets/sp3.webp";
+import React, { useEffect, useState } from "react";
+import { getProducts } from "../services/products"; 
 import ProductList from "../components/UI/productBestSL";
 import PathName from "../components/UI/path";
 
@@ -32,6 +30,29 @@ const ImgTop = () => (
 );
 
 function App() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const fetchedProducts = await getProducts();
+        const formattedProducts = fetchedProducts.map((product) => ({
+          image: product.images[0]?.url,
+          title: product.name,
+          price: product.price.toLocaleString("vi-VN", {
+            style: "currency",
+            currency: "VND",
+          }),
+        }));
+        setProducts(formattedProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <div className="imgTop">
       <ImgTop />
