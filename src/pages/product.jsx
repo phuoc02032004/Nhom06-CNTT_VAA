@@ -6,9 +6,9 @@ import ProductList from "../components/UI/productBestSL";
 import PathName from "../components/UI/path";
 
 const products = [
-  { image: sp1, title: "N BIG CIRCLE GEM LAUREL", price: "590.000" },
-  { image: sp2, title: "N DEER HORN", price: "490.000" },
-  { image: sp3, title: "ANK MULTI BUBBLE HEART OVAL CHAIN", price: "450.000" },
+  {id:1, image: sp1, title: "N BIG CIRCLE GEM LAUREL", price: "590.000" },
+  {id:2, image: sp2, title: "N DEER HORN", price: "490.000" },
+  {id:3, image: sp3, title: "ANK MULTI BUBBLE HEART OVAL CHAIN", price: "450.000" },
 ];
 
 const Section = ({ children, className, style }) => (
@@ -35,7 +35,7 @@ function App() {
   return (
     <div className="imgTop">
       <ImgTop />
-      <PathName /> {/* Corrected the component name */}
+      <PathName />
       <ProductList products={products} />
     </div>
   );
