@@ -10,7 +10,7 @@ router.get('/getBy',cartController.getById)
 
 router.get('/get_by_user',cartController.getCartByUserId)
 
-router.post('/',cartController.createCart)
+router.post('/add',cartController.createCart)
 
 router.put('/', cartController.updateCart)
 

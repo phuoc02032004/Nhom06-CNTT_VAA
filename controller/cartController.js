@@ -3,16 +3,25 @@ const Cart = require('../models/Cart');
 
 exports.getAll = async (req, res) => {
     try {
-        const data = await Cart.find()
-        if (data) {
-            res.status(200).json(data);
+        const carts = await Cart.find().populate('products.product');
+
+        if (carts) {
+            // Chuyển đổi dữ liệu để bao gồm thông tin sản phẩm
+            const formattedCarts = carts.map(cart => ({
+                ...cart.toObject(), // Lấy dữ liệu của cart
+                products: cart.products.map(productItem => ({
+                    ...productItem.product.toObject(), // Lấy dữ liệu của product
+                    quantity: productItem.quantity // Bao gồm số lượng
+                }))
+            }));
+            res.status(200).json(formattedCarts);
         } else {
             console.log("cannot find items")
         }
-    } catch {
+    } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+};
 
 exports.getById = async (req, res) => {
     const cartId = req.query.id;

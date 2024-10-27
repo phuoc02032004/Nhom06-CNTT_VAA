@@ -1,5 +1,4 @@
-const mongoose = require('mongoose')
-const formattedDate = () => new Date().toLocaleString('en-GB', { hour12: false });
+const mongoose = require('mongoose');
 
 const cartSchema = new mongoose.Schema({
     user: {
@@ -16,19 +15,21 @@ const cartSchema = new mongoose.Schema({
             },
             quantity: {
                 type: Number,
-                required: true
+                required: true,
+                default: 1
             }
         }
     ],
     createdAt: {
-        type: String,
-        default: formattedDate, // DD/MM/YYYY HH:mm:ss
+        type: Date,
+        default: Date.now
     },
     updatedAt: {
-        type: String,
-        default: formattedDate,
+        type: Date,
+        default: Date.now
     }
-})
+});
+
 const Cart = mongoose.model('Cart', cartSchema);
 
 module.exports = Cart;
