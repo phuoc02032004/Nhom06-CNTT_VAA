@@ -20,9 +20,10 @@ const cartRouter = require('./routes/cartRoutes');
 const uploadMiddleware = require('./middleware/upload');
 
 const app = express();
-
+const cors = require('cors');
 // Multer setup (for file uploads)
 const upload = multer({ dest: 'uploads/' });
+app.use(cors());
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,8 +36,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Enable CORS for all origins
-app.use(require('cors')());
 
 // Routes
 app.use('/', indexRouter);
