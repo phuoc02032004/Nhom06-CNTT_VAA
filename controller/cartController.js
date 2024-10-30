@@ -24,7 +24,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getById = async (req, res) => {
-    const cartId = req.query.id;
+    const cartId = req.params.id;
     if (!cartId) {
         res.status(404).json("cannot find item");
     }
@@ -32,20 +32,19 @@ exports.getById = async (req, res) => {
         const data = await Cart.findById(cartId);
         if (data) {
             res.status(200).json(data);
-        }
-        else {
+        } else {
             res.status(404).json("cannot find item");
         }
     } catch {
         res.status(500);
     }
-}
+};
 
 exports.getCartByUserId = async (req, res) => {
-    const userId = req.query.id; // Lấy userId từ query params
+    const userId = req.params.userId;
 
     try {
-        const cart = await Cart.find({ user: userId }).populate('products.product'); // Tìm giỏ hàng theo userId và kết nối với sản phẩm
+        const cart = await Cart.findOne({ user: userId }).populate('products.product');
 
         if (!cart) {
             return res.status(404).json({ message: "Cart not found for this user." });

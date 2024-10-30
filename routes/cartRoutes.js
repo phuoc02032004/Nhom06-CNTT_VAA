@@ -1,23 +1,17 @@
-
-
-const express = require('express')
+const express = require('express');
 const cartController = require('../controller/cartController');
-const router =express.Router();
+const router = express.Router();
 
-router.get('/',cartController.getAll)
+router.get('/', cartController.getAll);
 
-router.get('/getBy',cartController.getById)
+router.get('/:id', cartController.getById);
 
-router.get('/get_by_user',cartController.getCartByUserId)
+router.get('/user/:userId', cartController.getCartByUserId); // Thay đổi route thành /user/:userId
 
-router.post('/add',cartController.createCart)
+router.post('/', cartController.createCart);
 
-router.put('/', cartController.updateCart)
+router.put('/:id', cartController.updateCart); // Sử dụng ID cho route update
 
-router.delete('/',cartController.deleteCart)
-
-//router.get('/get_by_user',cartController.getByUserId)
+router.delete('/:id', cartController.deleteCart); // Sử dụng ID cho route delete
 
 module.exports = router;
-
-
