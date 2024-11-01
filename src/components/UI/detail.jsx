@@ -76,4 +76,8 @@ const ProductCard = () => {
     );
 };
 
+<<<<<<< HEAD
 export default ProductCard;
+=======
+export default ProductCard;
+>>>>>>> 33f891a9ecba03e575c6eab5047e241f03c833ff

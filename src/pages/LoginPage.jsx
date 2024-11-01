@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import log from "../assets/log.png";
@@ -41,15 +40,8 @@ function LoginForm() {
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
-    // Gửi yêu cầu reset mật khẩu đến API 
-    try {
-      // Thay thế 'http://localhost:3005/users/forgot-password' bằng endpoint reset mật khẩu thực tế
-      const response = await axios.post('http://localhost:3005/users/forgot-password', { email });
-      // Xử lý phản hồi từ API 
-      console.log(response.data.message); // Hiển thị thông báo thành công hoặc lỗi
-    } catch (error) {
-      console.error(error); // Xử lý lỗi
-    }
+
+    console.log("Password reset requested for email:", email); 
   };
 
   return (
