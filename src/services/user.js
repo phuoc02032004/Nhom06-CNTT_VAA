@@ -1,7 +1,7 @@
 import axios from 'axios';
 const registerUser = async (userData) => {
     try {
-        const response = await axios.post('http://localhost:3005/users/register', userData);
+        const response = await axios.post('http://localhost:3003/users/register', userData);
         return response;
     } catch (error) {
         throw error;
@@ -10,7 +10,7 @@ const registerUser = async (userData) => {
 
 const verify = async (email, verificationCode) => {
     try {
-        const response = await axios.post('http://localhost:3005/users/verify', {
+        const response = await axios.post('http://localhost:3003/users/verify', {
             email: email,
             verificationCode: verificationCode
         });
@@ -22,7 +22,7 @@ const verify = async (email, verificationCode) => {
 
 const loginUser = async (email, password) => {
     try {
-        const response = await axios.post('http://localhost:3005/users/login', {
+        const response = await axios.post('http://localhost:3003/users/login', {
             email,
             password
         });
