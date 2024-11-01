@@ -120,10 +120,10 @@ const Header = () => {
                 >
                   <ul className="text-brown-600">
                     <li className=" pr-4 font-bold text-[#6b4226]  ">
-                      <Link to="/huong-dan-do-size">Tin Tức</Link>
+                      <Link to="/tin-tuc">Tin Tức</Link>
                     </li>
                     <li className="pr-4 font-bold text-[#6b4226] ">
-                      <Link to="/bao-hanh-bao-quan">Sự Kiện</Link>
+                      <Link to="/su-kien">Sự Kiện</Link>
                     </li>
                   </ul>
                 </div>
