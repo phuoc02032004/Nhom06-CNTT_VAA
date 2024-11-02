@@ -20,7 +20,7 @@ const Cart = () => {
             code: product._id, 
             price: product.price,
             quantity: product.quantity,
-            image: product.images[0].url,
+        //    image: product.images[0].url,
             selected: false,
           }))
         );

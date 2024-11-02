@@ -40,6 +40,7 @@ function App() {
       try {
         const fetchedProducts = await getProducts();
         const formattedProducts = fetchedProducts.map((product) => ({
+          _id:product._id,
           image: product.images[0]?.url,
           title: product.name,
           price: product.price.toLocaleString("vi-VN", {
