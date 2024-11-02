@@ -5,23 +5,37 @@ exports.getAll = async (req, res) => {
     try {
         const carts = await Cart.find().populate('products.product');
 
-        if (carts) {
-            // Chuyển đổi dữ liệu để bao gồm thông tin sản phẩm
+        if (carts.length > 0) { // Kiểm tra nếu có giỏ hàng
             const formattedCarts = carts.map(cart => ({
                 ...cart.toObject(), // Lấy dữ liệu của cart
-                products: cart.products.map(productItem => ({
-                    ...productItem.product.toObject(), // Lấy dữ liệu của product
-                    quantity: productItem.quantity // Bao gồm số lượng
-                }))
+                products: cart.products.map(productItem => {
+                    // Kiểm tra nếu sản phẩm tồn tại trước khi gọi toObject
+                    if (productItem.product) {
+                        return {
+                            ...productItem.product.toObject(), // Lấy dữ liệu của product
+                            quantity: productItem.quantity // Bao gồm số lượng
+                        };
+                    } else {
+                        // Nếu không có sản phẩm, có thể trả về một đối tượng rỗng hoặc thông điệp khác
+                        return {
+                            product: productItem._id,
+                            quantity: productItem.quantity // Vẫn giữ số lượng, nhưng sản phẩm không tồn tại
+                        };
+                    }
+                })
             }));
             res.status(200).json(formattedCarts);
         } else {
-            console.log("cannot find items")
+            // Không có giỏ hàng nào
+            res.status(404).json({ message: "No carts found" });
         }
     } catch (error) {
+        console.error("Error retrieving carts:", error); // Ghi log lỗi để kiểm tra
         res.status(500).json({ error: error.message });
     }
 };
+
+
 
 exports.getById = async (req, res) => {
     const cartId = req.params.id;
@@ -86,12 +100,20 @@ exports.createCart = async (req, res) => {
 
 
 exports.updateCart = async (req, res) => {
-    const cartId = req.query.id;
+    const cartId = req.params.id; // ID của giỏ hàng
+    const { productId, quantity } = req.body; // ID sản phẩm và số lượng mới
+
     try {
-        const updatedCart = await Cart.findByIdAndUpdate(cartId, req.body, { new: true });
+        const updatedCart = await Cart.findOneAndUpdate(
+            { _id: cartId, "products.product": productId },
+            { $set: { "products.$.quantity": quantity } },
+            { new: true }
+        );
+
         if (!updatedCart) {
-            return res.status(404).json({ message: "Cart not found" });
+            return res.status(404).json({ message: "Cart or product not found" });
         }
+        
         res.status(200).json(updatedCart);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -99,8 +121,9 @@ exports.updateCart = async (req, res) => {
 };
 
 
+
 exports.deleteCart = async (req, res) => {
-    const cartId = req.query.id
+    const cartId = req.params.id
     if (!cartId) {
         res.status(404).json("cannot find item");
     }
