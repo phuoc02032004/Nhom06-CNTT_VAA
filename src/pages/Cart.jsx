@@ -48,8 +48,13 @@ const Cart = () => {
 
   const handleRemove = async (id) => {
     try {
-      await removeCartItem(id);
+     const cartId = cart._id
+      console.log(id)
+     const confirm = window.confirm("Are you want to delete this product !")
+      if(confirm){
+      await removeCartItem(cartId, id);
       setCartItems((items) => items.filter((item) => item.id !== id));
+      }
     } catch (error) {
       console.error("Error removing item from cart:", error);
     }
@@ -101,6 +106,7 @@ const Cart = () => {
       <div className="divide-y">
         {cartItems.map((item) => (
           <CartItem
+
             key={item.id}
             item={item}
             onQuantityChange={handleQuantityChange} // Truyền hàm cập nhật số lượng

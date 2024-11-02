@@ -11,15 +11,6 @@ export const getCartByUserId = async (userId) => {
   }
 };
 
-export const removeCartItem = async (id) => {
-  try {
-    await axios.delete(`${API_URL}/${id}`);
-  } catch (error) {
-    throw error;
-  }
-};
-
-
 export const AddtoCart = async (userId,productId) => {
   try {
     const response = await axios.post(`${API_URL}`, {
@@ -49,9 +40,18 @@ export const updateCart = async (cartId, productId, quantity) => {
     console.error("Error updating cart:", error);
     throw error;
   }
-
 };
 
+export const removeCartItem = async (cartId, productId) => {
+  try {
+      const response = await axios.delete(`${API_URL}/${cartId}/products/${productId}`);
+      console.log(response.data);
+      return response.data; 
+  } catch (error) {
+      console.error('Error removing product from cart:', error.response ? error.response.data : error.message);
+      throw error; 
+  }
+};
 
 
 
