@@ -20,10 +20,10 @@ export const removeCartItem = async (id) => {
 };
 
 
-export const AddtoCart = async (productId) => {
+export const AddtoCart = async (userId,productId) => {
   try {
     const response = await axios.post(`${API_URL}`, {
-      user: "67021eb674b946ce95bf64ed", 
+      user: userId, 
       products: [{ 
         product: productId,
         quantity: 1 

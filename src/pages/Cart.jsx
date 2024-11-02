@@ -111,7 +111,7 @@ const Cart = () => {
       </div>
 
       <div className="p-4 text-right text-gray-700">
-        <p>Tạm tính: {totalPrice.toLocaleString()} ₫</p>
+        <p>Tạm tính: {totalPrice.toLocaleString()}₫</p>
         <p>Giảm giá: - 0 ₫</p>
         <p className="font-bold">Tổng tiền: {totalPrice.toLocaleString()} ₫</p>
         <p className="text-sm text-gray-500">(Giá tham khảo đã bao gồm VAT)</p>

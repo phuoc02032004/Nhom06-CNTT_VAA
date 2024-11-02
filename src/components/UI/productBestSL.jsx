@@ -30,8 +30,9 @@ const ProductCard = ({
 
   const handleAddToCart = async () => {
     try {
-      console.log(id)
-      await AddtoCart(id);
+      const userID = localStorage.getItem("userID")
+      console.log(userID)
+      await AddtoCart(userID, id);
       alert(`Added ${title} to cart`); 
     } catch (error) {
       console.error("Error adding to cart:", error);
