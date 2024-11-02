@@ -113,7 +113,7 @@ exports.updateCart = async (req, res) => {
         if (!updatedCart) {
             return res.status(404).json({ message: "Cart or product not found" });
         }
-        
+
         res.status(200).json(updatedCart);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -122,15 +122,24 @@ exports.updateCart = async (req, res) => {
 
 
 
-exports.deleteCart = async (req, res) => {
-    const cartId = req.params.id
-    if (!cartId) {
-        res.status(404).json("cannot find item");
-    }
+exports.deleteProductFromCart = async (req, res) => {
+    const { cartId, _id } = req.params; 
     try {
-        const deletedCart = await Cart.findByIdAndDelete(cartId);
-        res.status(200).json({ message: 'Delete success' });
+        const cart = await Cart.findById(cartId);
+        if (!cart) {
+            return res.status(404).json({ message: 'Cart not found' });
+        }
+        const productIndex = cart.products.findIndex(p => p.product.toString() === _id); 
+        if (productIndex === -1) {
+            return res.status(404).json({ message: 'Product not found in cart' });
+        }
+     
+        cart.products.splice(productIndex, 1);
+        await cart.save();
+        
+        return res.status(200).json({ message: 'Product removed from cart', cart });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        console.error(error);
+        return res.status(500).json({ message: 'Server error' });
     }
-};
+}
