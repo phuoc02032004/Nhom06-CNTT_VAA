@@ -1,45 +1,50 @@
-// Cart.js
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../components/UI/Product_in_cart";
-import { getCartItems, removeCartItem } from "../services/cart";
+import { getCartByUserId, removeCartItem, updateCart } from "../services/cart"; // Đảm bảo import updateCart
 
 const Cart = () => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]); 
+  const [cartItems, setCartItems] = useState([]);
   const [selectAll, setSelectAll] = useState(false);
+  const [cart, setCart] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const carts = await getCartItems();
-        const items = carts.flatMap(cart =>
-          cart.products.map(product => ({
-            id: product._id,
-            name: product.name,
-            code: product._id, 
-            price: product.price,
-            quantity: product.quantity,
-        //    image: product.images[0].url,
-            selected: false,
-          }))
-        );
-        setCartItems(items);
+        const userID = localStorage.getItem("userID");
+        const fetchedCart = await getCartByUserId(userID);
+        console.log(fetchedCart);
+
+        const formattedProducts = fetchedCart.products.map(item => ({
+          id: item.product._id,
+          name: item.product.name,
+          price: item.product.price,
+          quantity: item.quantity,
+          image: item.product.images[0],
+        }));
+
+        setCartItems(formattedProducts);
+        setCart(fetchedCart);
       } catch (error) {
         console.error("Error fetching cart data:", error);
       }
     };
 
     fetchData();
-  }, []); 
+  }, []);
 
-  const handleQuantityChange = (id, quantity) => {
+  const handleQuantityChange = async (productId, quantity) => {
+    console.log(cart._id);
+    console.log(productId)
+    await updateCart(cart._id, productId, quantity);
     setCartItems((items) =>
       items.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
+        item.id === productId ? { ...item, quantity: Math.max(1, quantity) } : item
       )
     );
   };
+
 
   const handleRemove = async (id) => {
     try {
@@ -98,9 +103,9 @@ const Cart = () => {
           <CartItem
             key={item.id}
             item={item}
-            onQuantityChange={handleQuantityChange}
+            onQuantityChange={handleQuantityChange} // Truyền hàm cập nhật số lượng
             onRemove={() => handleRemove(item.id)}
-            onSelect={() => handleSelectItem(item.id)} 
+            onSelect={() => handleSelectItem(item.id)}
           />
         ))}
       </div>

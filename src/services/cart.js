@@ -2,12 +2,12 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3003/carts';
 
-export const getCartItems = async () => {
+export const getCartByUserId = async (userId) => {
   try {
-    const response = await axios.get(API_URL);
-    return response.data;
+      const response = await axios.get(`${API_URL}/user/${userId}`);
+      return response.data;
   } catch (error) {
-    throw error;
+      throw error;
   }
 };
 
@@ -38,16 +38,21 @@ export const AddtoCart = async (productId) => {
   }
 };
 
-export const updateCart = async (id, quantity) => {
-  try{
-  const response = await axios.put(`${API_URL}/${id}`, {
-    quantity,
-  });
-  return response.data;
-}catch (error) {
-  throw error;
-}
+export const updateCart = async (cartId, productId, quantity) => {
+  try {
+    const response = await axios.put(`${API_URL}/${cartId}`, {
+      productId : productId,
+      quantity: quantity,
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error updating cart:", error);
+    throw error;
+  }
+
 };
+
+
 
 
 
