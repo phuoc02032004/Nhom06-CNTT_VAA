@@ -21,11 +21,9 @@ const uploadImage = async (file) => {
 
 exports.createProduct = async (req, res) => {
     try {
-        // Kiểm tra req.body và req.files
         console.log('req.body:', req.body);
         console.log('req.files:', req.files);
 
-        // Tạo đối tượng sản phẩm từ req.body
         const newProduct = new Product({
             ...req.body,
             stock: Number(req.body.stock),
@@ -33,7 +31,6 @@ exports.createProduct = async (req, res) => {
             weight: req.body.weight ? Number(req.body.weight) : undefined
         });
 
-        // Xử lý hình ảnh nếu có
         const images = req.files;
         const uploadedImages = [];
 
