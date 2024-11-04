@@ -113,3 +113,19 @@ exports.deleteProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.getProductsByCategory = async (req, res) => {
+    try {
+        const { categoryId } = req.params;
+
+        const products = await Product.find({ category: categoryId });
+
+        if (products.length === 0) {
+            return res.status(404).json({ message: 'No products found for this category' });
+        }
+
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
