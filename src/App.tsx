@@ -18,6 +18,7 @@ import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import Category from './pages/Category';
 import Order from './pages/Order';
+import Productt from './pages/Product';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -51,6 +52,15 @@ function App() {
             <>
               <PageTitle title="Category | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Category />
+            </>
+          }
+        />
+        <Route
+          path="/product"
+          element={
+            <>
+              <PageTitle title="Product | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <Productt />
             </>
           }
         />
