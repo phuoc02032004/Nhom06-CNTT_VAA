@@ -1,6 +1,7 @@
 import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import {AddtoCart} from "../../services/cart"
 
 const IconButton = memo(({ icon, onClick }) => (
   <button
@@ -21,33 +22,42 @@ const ProductCard = ({
   onAddToCart,
   onFavorite,
 }) => {
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   const handleViewProduct = () => {
-    navigate(`/ProductDetail/`); // Navigate to product detail page
+    navigate(`/ProductDetail/`); 
+  };
+
+  const handleAddToCart = async () => {
+    try {
+      const userID = localStorage.getItem("userID")
+      console.log(userID)
+      await AddtoCart(userID, id);
+      alert(`Added ${title} to cart`); 
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      alert("Failed to add to cart. Please try again.");
+    }
   };
 
   return (
     <div className="w-full max-w-xs mx-auto">
       <div className="relative group">
-        {/* Product Image */}
         <img
+        
           src={image}
           alt={title}
           className="w-full h-auto rounded-lg transition-transform transform group-hover:scale-105 cursor-pointer"
-          onClick={handleViewProduct} // Navigate on image click
+          onClick={handleViewProduct}
         />
-
-        {/* Icon Buttons (displayed over the image) */}
         <div className="absolute bottom-2 left-2 flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
           <IconButton icon="heart" onClick={onFavorite} />
-          <IconButton icon="shopping-bag" onClick={onAddToCart} />
-          <IconButton icon="search" onClick={handleViewProduct} /> {/* Navigate on "View" click */}
+          <IconButton icon="shopping-bag" onClick={handleAddToCart} />
+          <IconButton icon="search" onClick={handleViewProduct} />
         </div>
       </div>
-
-      {/* Product Details */}
       <div className="text-center mt-4">
+       
         <h3 className="text-lg font-semibold">{title}</h3>
         <p className="text-gray-500 text-xl font-bold">{price}₫</p>
       </div>
@@ -55,21 +65,25 @@ const ProductCard = ({
   );
 };
 
-// ProductList Component (now accepts dynamic products as props)
-const ProductList = ({ products }) => (
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-    {products.map((product, index) => (
-      <ProductCard
-        key={index}
-        id={product.id} // Pass product ID for navigation
-        image={product.image}
-        title={product.title}
-        price={product.price}
-        onAddToCart={() => alert(`Added ${product.title} to cart`)}
-        onFavorite={() => alert(`Added ${product.title} to favorites`)}
-      />
-    ))}
-  </div>
-);
+const ProductList = ({ products }) => {
+  console.log(products); // In ra để kiểm tra
+
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      {products.map((product, index) => (
+        <ProductCard
+          key={index}
+          id={product._id} // Sử dụng _id nếu đó là tên thuộc tính ID
+          image={product.image}
+          title={product.title}
+          price={product.price}
+          onAddToCart={() => alert(`Added ${product.id} to cart`)} // Sử dụng _id ở đây nếu cần
+          onFavorite={() => alert(`Added ${product.title} to favorites`)}
+        />
+      ))}
+    </div>
+  );
+};
+
 
 export default ProductList;

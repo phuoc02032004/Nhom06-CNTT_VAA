@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import '../styles/WarrantyAndCare.css';
+
 
 const WarrantyAndCare = () => {
   return (
     <div className="warranty-care">
          <aside className="sidebar">
-        <h2>Điều hướng</h2>
         <ul>
           {/* <li><Link to="/">Trang chủ / Bảo hành & bảo quản</Link></li>
           <li><Link to="/measure-size">Hướng dẫn đo size</Link></li>
@@ -14,6 +16,7 @@ const WarrantyAndCare = () => {
           <li><Link to="/vip-conditions">Điều kiện vip</Link></li> */}
         </ul>
       </aside>
+      <div className="content">
 
       <h1>Bảo hành & Bảo quản</h1>
       <h2>CHÍNH SÁCH BẢO HÀNH VÀ ĐỔI TRANG SỨC BẠC CỦA KAT JEWELRY</h2>
@@ -144,6 +147,9 @@ const WarrantyAndCare = () => {
 
       <h2>VÌ SAO CÓ KHÁCH ĐEO BẠC BỊ NGỨA, DỊ ỨNG?</h2>
       <p>
+      Bị nhầm lẫn với sản phẩm xi mạ bạc. Hiện nay trên thị trường có loại sản phẩm xi mạ bạc với giá thành chỉ bằng 1/2 - 1/3 so với giá của sản phẩm bạc 925 mà vẫn được dán mác bạc 925 và được tư vấn như bạc 925. Nên nhiều bạn bị nhầm lẫn với sản phẩm bạc 925. Sản phẩm bạc xi mạ là sản phẩm chỉ được xi mạ 1 lớp bạc bao phủ bên ngoài, lõi bên trong là hợp kim loại khác như : đồng, kẽm, sắt… Nên sau 1 thời gian lớp bạc ấy dần phai đi và lộ ra lõi kim loại bên trong và tiếp xúc với da, khiến da bị kích ứng ,mẩn đỏ và ngứa. Là người tiêu dùng thông minh, hãy chọn lựa sản phẩm bạc chất lượng của các chỗ uy tín, có thương hiệu nhé.
+      </p>
+      <p>
         Bạc rất lành tính và phù hợp ngay cả với da em bé. Tuy nhiên, một số người đeo bạc có thể bị ngứa vì:
       </p>
       <ol>
@@ -163,6 +169,7 @@ const WarrantyAndCare = () => {
         Hãy luôn chăm sóc và bảo vệ trang sức bạc của bạn để giữ cho nó luôn đẹp và bền bỉ theo thời gian!
       </p>
 
+    </div>
     </div>
     
   );

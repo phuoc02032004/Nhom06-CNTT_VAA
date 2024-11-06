@@ -1,0 +1,54 @@
+.dieu-kien-vip {
+    display: flex;
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    padding-top: 20px; /* Thêm khoảng cách ở trên */
+}
+
+.sidebar {
+    width: 200px;
+    margin-right:80px;
+    font-weight: bold; /* In đậm */
+    font-size: 0.9rem; /* Kích thước chữ lớn hơn một chút */
+}
+
+.content {
+    max-width: 800px; /* Đặt chiều rộng tối đa cho nội dung */
+    text-align: left;
+    margin-top: 10px; /* Đẩy nội dung lên trên một chút */
+}
+.bold {
+    font-weight: bold;
+}
+
+/* Tăng kích thước cho tiêu đề chính */
+.dieu-kien-vip .content h1.bold {
+    font-size: 1.8rem; /* Kích thước lớn hơn cho tiêu đề chính */
+    margin-bottom: 20px; /* Khoảng cách dưới tiêu đề */
+}
+
+/* Tăng kích thước cho tiêu đề cấp 2 */
+.dieu-kien-vip .content h2.bold {
+    font-size: 1.5rem; /* Kích thước lớn cho tiêu đề cấp 2 */
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+/* Tăng kích thước cho tiêu đề cấp 3 */
+.dieu-kien-vip .content h3.bold {
+    font-size: 1.3rem; /* Kích thước vừa cho tiêu đề cấp 3 */
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+.dot-list {
+    list-style-type: disc; /* Tạo dấu chấm cho danh sách */
+    margin-left: 20px; /* Điều chỉnh khoảng cách so với lề */
+}
+.dotted-text::before {
+    content: "• "; /* Dấu chấm */
+    color: black; /* Màu của dấu chấm */
+    font-weight: bold; /* Đậm nếu cần */
+    margin-right: 5px; /* Khoảng cách giữa dấu chấm và văn bản */
+}
+.sidebar h1 {
+    font-size: 20px; /* Thay đổi kích thước chữ lên 20px */
+}

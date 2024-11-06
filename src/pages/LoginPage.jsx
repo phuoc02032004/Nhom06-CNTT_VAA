@@ -3,6 +3,8 @@ import { FaHome } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import log from "../assets/log.png";
 import { loginUser, registerUser, verify } from "../services/user";
+import { jwtDecode } from "jwt-decode";
+
 
 const InputField = ({ label, type, placeholder, value, onChange }) => (
   <div>
@@ -31,12 +33,21 @@ function LoginForm() {
     e.preventDefault();
     try {
       const response = await loginUser(email, password);
+      const decoded = jwtDecode(response.data.token);
+      localStorage.setItem("userID", decoded.id)
+      console.log(decoded.id)
+      console.log(localStorage.getItem("userID", decoded.id));
       localStorage.setItem("token", response.data.token);
       navigate("/");
     } catch (error) {
       setErrorMessage(error.message);
     }
   };
+
+  
+      
+    
+
 
   const handlePasswordReset = async (e) => {
     e.preventDefault();
