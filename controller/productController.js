@@ -74,33 +74,36 @@ exports.getProductById = async (req, res) => {
 exports.updateProduct = async (req, res) => {
     try {
         const { id } = req.params;
-        const { images } = req.body; // Lấy mảng images từ request
 
-        // Upload ảnh mới lên Cloudinary
-        const uploadedImages = await Promise.all(
-            req.files.map((image, index) => {
-                const imageId = images[index].id;
-                return uploadImage(image, imageId).then(imageUrl => ({ url: imageUrl, id: imageId }));
-            })
-        );
-
-        const updatedProduct = await Product.findByIdAndUpdate(
-            id,
-            {
-                images: uploadedImages
-            },
-            { new: true }
-        );
-
-        if (!updatedProduct) {
+        const productToUpdate = await Product.findById(id);
+        if (!productToUpdate) {
             return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
         }
+
+        productToUpdate.name = req.body.name || productToUpdate.name;
+        productToUpdate.description = req.body.description || productToUpdate.description;
+        productToUpdate.price = Number(req.body.price) || productToUpdate.price;
+        productToUpdate.stock = Number(req.body.stock) || productToUpdate.stock;
+
+        const images = req.files;
+        const uploadedImages = [];
+        if (images && images.length > 0) {
+            for (const image of images) {
+                const imageUrl = await uploadImage(image);
+                uploadedImages.push({ url: imageUrl });
+            }
+            productToUpdate.images = uploadedImages;
+        } else {
+            productToUpdate.images = productToUpdate.images;
+        }
+        const updatedProduct = await productToUpdate.save();
+
         res.status(200).json(updatedProduct);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        console.error(error);
+        res.status(400).json({ message: 'Failed to update product.' });
     }
 };
-
 
 exports.deleteProduct = async (req, res) => {
     try {
