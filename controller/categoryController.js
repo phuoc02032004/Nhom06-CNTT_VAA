@@ -63,3 +63,22 @@ exports.deleteCategory = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+exports.searchCategory = async (req, res) => {
+    try {
+        const { q } = req.query; // Get the search query from the query parameter 'q'
+
+        if (!q) {
+            return res.status(400).json({ message: 'Search query is required.' });
+        }
+
+        const categories = await Category.find({
+            name: { $regex: q, $options: 'i' } // Case-insensitive search using regex
+        });
+
+        res.status(200).json(categories);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to search categories.' });
+    }
+};
