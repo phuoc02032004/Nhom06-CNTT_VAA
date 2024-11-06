@@ -53,7 +53,7 @@ exports.createProduct = async (req, res) => {
 exports.getAllProducts = async (req, res) => {
     try {
         const products = await Product.find()
-            .populate('category'); // Populate the 'category' field
+            .populate('category');
 
         res.status(200).json(products);
     } catch (error) {
@@ -63,7 +63,9 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getProductById = async (req, res) => {
     try {
-        const product = await Product.findById(req.params.id);
+        const product = await Product.findById(req.params.id)
+            .populate('category');
+
         if (!product) {
             return res.status(404).json({ message: 'Sản phẩm không tồn tại' });
         }
@@ -72,7 +74,6 @@ exports.getProductById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 exports.updateProduct = async (req, res) => {
     try {
         const { id } = req.params;
