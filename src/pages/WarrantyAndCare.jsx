@@ -6,12 +6,12 @@ const WarrantyAndCare = () => {
          <aside className="sidebar">
         <h2>Điều hướng</h2>
         <ul>
-          <li><Link to="/">Trang chủ / Bảo hành & bảo quản</Link></li>
+          {/* <li><Link to="/">Trang chủ / Bảo hành & bảo quản</Link></li>
           <li><Link to="/measure-size">Hướng dẫn đo size</Link></li>
           <li><Link to="/warranty-care">Bảo hành & bảo quản</Link></li>
           <li><Link to="/delivery-and-returns">Giao hàng & đổi hàng</Link></li>
           <li><Link to="/payment-methods">Hình thức thanh toán</Link></li>
-          <li><Link to="/vip-conditions">Điều kiện vip</Link></li>
+          <li><Link to="/vip-conditions">Điều kiện vip</Link></li> */}
         </ul>
       </aside>
 
