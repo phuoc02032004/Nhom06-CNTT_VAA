@@ -92,9 +92,6 @@ exports.createCart = async (req, res) => {
                 }
             });
 
-            totalQuantity: totalQuantity+productItem.quantity;
-            totalPrice: totalPrice+productItem.price;
-
             // Lưu giỏ hàng đã cập nhật
             const updatedCart = await existingCart.save();
             return res.status(200).json(updatedCart);
