@@ -74,29 +74,45 @@ const Product = require('../models/Product')
 exports.createCart = async (req, res) => {
     const userId = req.body.user;
     const products = req.body.products;
+
     try {
         let existingCart = await Cart.findOne({ user: userId });
+
         if (existingCart) {
+            // Nếu giỏ hàng đã tồn tại, cập nhật số lượng sản phẩm
             products.forEach(item => {
                 const existingProduct = existingCart.products.find(p => p.product.toString() === item.product);
+
                 if (existingProduct) {
+                    // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng
                     existingProduct.quantity += item.quantity;
                 } else {
+                    // Nếu sản phẩm chưa có, thêm vào danh sách
                     existingCart.products.push(item);
                 }
             });
+
+            // Lưu giỏ hàng đã cập nhật
             const updatedCart = await existingCart.save();
             return res.status(200).json(updatedCart);
+
         } else {
-            // Nếu giỏ hàng chưa tồn tại, tạo mới giỏ hàng
-            const newCart = new Cart(req.body);
+            // Nếu giỏ hàng chưa tồn tại, tạo mới giỏ hàng với danh sách sản phẩm
+            const newCart = new Cart({
+                user: userId,
+                products: products, // Thêm danh sách sản phẩm vào giỏ hàng mới
+            });
+
             const savedCart = await newCart.save();
             return res.status(201).json(savedCart);
         }
     } catch (error) {
+        console.error("Error creating or updating cart:", error);
         res.status(400).json({ error: error.message });
     }
 };
+
+
 
 
 exports.updateCart = async (req, res) => {
