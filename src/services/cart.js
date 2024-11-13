@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3003/carts';
+const API_URL = 'http://localhost:3003/api/v1/carts';
 
 export const getCartByUserId = async (userId) => {
   try {

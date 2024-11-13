@@ -21,7 +21,7 @@ const Cart = () => {
           name: item.product.name,
           price: item.product.price,
           quantity: item.quantity,
-          image: item.product.images[0],
+          image: item.product.images[0]?.url,
         }));
 
         setCartItems(formattedProducts);
