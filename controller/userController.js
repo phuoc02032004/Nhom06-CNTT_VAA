@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const emailUtils = require('../utils/email');
 const { sendVerificationEmail, generateResetPasswordToken, sendResetPasswordEmail } = require('../utils/email');
+const Product = require("../models/Product");
 
 exports.register = async (req, res) => {
     const { email, password, name, address, phone } = req.body;
@@ -113,6 +114,17 @@ exports.get = async (req, res) => {
         res.status(200).json({ user });
     } catch (error) {
         res.status(500).json({ message: 'Có lỗi xảy ra', error: error.message });
+    }
+};
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        const users = await User.find()
+            .populate('user');
+
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
 
