@@ -1,9 +1,20 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const userRoutes = require('./userRoutes');
+const productRoutes = require('./productRoutes');
+const categoryRoutes = require('./categoryRoutes');
+const cartRoutes = require('./cartRoutes');
+const orderRoutes = require('./orderRoutes');
+const reviewRoutes = require('./reviewRoutes');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const router = express.Router();
 
-module.exports = router;
+const initRoutes = (app) => {
+  app.use('/api/v1/users', userRoutes);
+  app.use('/api/v1/products', productRoutes);
+  app.use('/api/v1/categories', categoryRoutes);
+  app.use('/api/v1/carts', cartRoutes);
+  app.use('/api/v1/orders', orderRoutes);
+  app.use('/api/v1/reviews', reviewRoutes);
+};
+
+module.exports = initRoutes;

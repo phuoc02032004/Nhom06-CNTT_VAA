@@ -5,17 +5,11 @@ const logger = require('morgan');
 const connectDB = require('./config/database');
 const cloudinaryConfig = require('./config/cloudinaryConfig');
 const multer = require('multer');
+const initRoutes = require('./routes/index')
 require('dotenv').config();
 
 // Routes
 const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/userRoutes');
-const productRouter = require('./routes/productRoutes');
-const categoryRouter = require('./routes/categoryRoutes');
-const orderRouter = require('./routes/orderRoutes');
-const reviewRouter = require('./routes/reviewRoutes');
-const cartRouter = require('./routes/cartRoutes');
-
 // Middleware
 const uploadMiddleware = require('./middleware/upload');
 
@@ -36,15 +30,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/products', productRouter);
-app.use('/categories', categoryRouter);
-app.use('/orders', orderRouter);
-app.use('/reviews', reviewRouter);
-app.use('/carts', cartRouter);
+initRoutes(app);
 
 // Error handling
 app.use(function (req, res, next) {
