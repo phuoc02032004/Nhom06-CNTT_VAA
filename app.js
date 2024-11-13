@@ -7,6 +7,7 @@ const cloudinaryConfig = require('./config/cloudinaryConfig');
 const multer = require('multer');
 const initRoutes = require('./routes/index')
 require('dotenv').config();
+var bodyParser = require('body-parser');
 
 // Routes
 const indexRouter = require('./routes/index');
@@ -58,5 +59,9 @@ const port = 3003;
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 module.exports = app;

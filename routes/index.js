@@ -15,7 +15,8 @@ const initRoutes = (app) => {
   app.use('/api/v1/carts', cartRoutes);
   app.use('/api/v1/orders', orderRoutes);
   app.use('/api/v1/reviews', reviewRoutes);
-  app.use('/api/v1/payment', paymentRoutes)
+  app.use('/api/v1/payment', paymentRoutes);
+
 };
 
 module.exports = initRoutes;
