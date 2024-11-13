@@ -66,14 +66,14 @@ exports.deleteCategory = async (req, res) => {
 
 exports.searchCategory = async (req, res) => {
     try {
-        const { q } = req.query; // Get the search query from the query parameter 'q'
+        const { q } = req.query;
 
         if (!q) {
             return res.status(400).json({ message: 'Search query is required.' });
         }
 
         const categories = await Category.find({
-            name: { $regex: q, $options: 'i' } // Case-insensitive search using regex
+            name: { $regex: q, $options: 'i' }
         });
 
         res.status(200).json(categories);

@@ -87,6 +87,14 @@ exports.updateProduct = async (req, res) => {
         productToUpdate.description = req.body.description || productToUpdate.description;
         productToUpdate.price = Number(req.body.price) || productToUpdate.price;
         productToUpdate.stock = Number(req.body.stock) || productToUpdate.stock;
+        productToUpdate.category = req.body.category || productToUpdate.category;
+        productToUpdate.material = req.body.material || productToUpdate.material;
+        productToUpdate.weight = Number(req.body.weight) || productToUpdate.weight;
+        productToUpdate.dimensions = req.body.dimensions || productToUpdate.dimensions;
+        productToUpdate.color = req.body.color || productToUpdate.color;
+        productToUpdate.style = req.body.style || productToUpdate.style;
+        productToUpdate.origin = req.body.origin || productToUpdate.origin;
+        productToUpdate.manufacturer = req.body.manufacturer || productToUpdate.manufacturer;
 
         const images = req.files;
         const uploadedImages = [];
@@ -138,16 +146,16 @@ exports.getProductsByCategory = async (req, res) => {
 
 exports.searchProduct = async (req, res) => {
     try {
-        const { q } = req.query; // Get the search query from the query parameter 'q'
+        const { q } = req.query;
 
         if (!q) {
             return res.status(400).json({ message: 'Search query is required.' });
         }
 
         const products = await Product.find({
-            name: { $regex: q, $options: 'i' } // Case-insensitive search using regex
+            name: { $regex: q, $options: 'i' }
         })
-            .populate('category'); // Populate the category field
+            .populate('category');
 
         res.status(200).json(products);
     } catch (error) {
