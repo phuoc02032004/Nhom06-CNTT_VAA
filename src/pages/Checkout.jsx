@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CartItem from "../components/UI/Product_in_cart";
 import ShippingInfo from "../components/UI/ShippingInfo";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,14 +16,20 @@ const Checkout = () => {
       selected: true,
     },
   ]);
+  
+  // State để lưu tổng tiền từ sessionStorage
+  const [storedTotalPrice, setStoredTotalPrice] = useState(0);
 
-  const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+  // Lấy totalPrice từ sessionStorage khi component load
+  useEffect(() => {
+    const totalPrice = sessionStorage.getItem("totalPrice");
+    if (totalPrice) {
+      setStoredTotalPrice(Number(totalPrice));  // Chuyển đổi giá trị thành số
+    }
+  }, []);
 
   const proceedToPayment = () => {
-    navigate("/payment", { state: { totalPrice } });
+    navigate("/payment", { state: { totalPrice: storedTotalPrice } });
   };
 
   return (
@@ -42,10 +48,10 @@ const Checkout = () => {
       </div>
 
       <div className="text-right text-lg font-semibold mb-4">
-        <p>Tạm tính: {totalPrice.toLocaleString()} ₫</p>
+        <p>Tạm tính: {storedTotalPrice.toLocaleString()} ₫</p>
         <p>Giao hàng: Miễn phí</p>
         <p>Giảm giá: - 0 ₫</p>
-        <p className="font-bold">Tổng tiền: {totalPrice.toLocaleString()} ₫</p>
+        <p className="font-bold">Tổng tiền: {storedTotalPrice.toLocaleString()} ₫</p>
       </div>
 
       <ShippingInfo />

@@ -14,7 +14,8 @@ import MeasureSize from "./pages/MeasureSize"; // Hướng dẫn đo size
 import WarrantyAndCare from "./pages/WarrantyAndCare"; // Bảo hành và bảo quản
 import DeliveryAndReturns from "./pages/DeliveryAndReturns"; // Giao hàng và đổi hàng
 import DieuKienVIP from "./pages/DieuKienVIP"; // Nhập trang DieuKienVIP
-import ProductDetail from "./pages/DetailProduct"
+import ProductDetail from "./pages/DetailProduct";
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 function App() {
   return (
@@ -34,6 +35,8 @@ function App() {
           <Route path="/giao-hang-doi-hang" element={<DeliveryAndReturns />} />
           <Route path="/dieu-kien-vip" element={<DieuKienVIP />} /> 
           <Route path="ProductDetail" element={<ProductDetail/>} />
+          <Route path="/payment-success" element={<PaymentSuccess />} />
+
 
 
         </Route>

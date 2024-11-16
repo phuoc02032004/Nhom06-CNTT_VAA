@@ -82,6 +82,9 @@ const Cart = () => {
 
   const handleProceedToPayment = () => {
     navigate("/checkout");
+
+    sessionStorage.setItem("totalPrice", totalPrice);
+    console.log(totalPrice);
   };
 
   return (
