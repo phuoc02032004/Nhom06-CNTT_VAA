@@ -38,11 +38,6 @@ const PaymentSuccess = () => {
     }, []
     );
 
-
-
-
-
-
     const formattedPayDate = payDate
         ? `${payDate.slice(6, 8)}/${payDate.slice(4, 6)}/${payDate.slice(0, 4)} ${payDate.slice(8, 10)}:${payDate.slice(10, 12)}:${payDate.slice(12, 14)}`
         : "Không xác định";
