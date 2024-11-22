@@ -6,6 +6,26 @@ const orderSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+
+    paymentId:{
+        type:String,
+        required: true
+    },
+
+    Hoten:{
+        type: String,
+        required: true
+    },
+
+    SoDT:{
+        type: String,
+        required: true
+    },
+
+    email:{
+        type: String,
+        required:true
+    },
     products: [
         {
             product: {
