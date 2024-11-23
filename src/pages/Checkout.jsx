@@ -1,29 +1,51 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import CartItem from "../components/UI/Product_in_cart";
 import ShippingInfo from "../components/UI/ShippingInfo";
 import { Link, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const [cartItems] = useState([
-    {
-      id: 1,
-      name: "Nhẫn Vàng trắng 10K đính đá ECZ PNJ",
-      code: "GNXMXMW000205",
-      price: 5071000,
-      quantity: 1,
-      image: "/ring.jpg",
-      selected: true,
-    },
-  ]);
+  const location = useLocation();
+  const { selectedItems } = location.state || { selectedItems: [], totalPrice: 0 };
 
-  const totalPrice = cartItems.reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
+
+  console.log("Selected Items:", selectedItems)
+
+  sessionStorage.setItem("selectedItems", JSON.stringify(selectedItems));
+
+  const [storedTotalPrice, setStoredTotalPrice] = useState(0);
+  const [shippingInfo, setShippingInfo] = useState(null);
+
+  useEffect(() => {
+    const totalPrice = sessionStorage.getItem("totalPrice");
+    if (totalPrice) {
+      setStoredTotalPrice(Number(totalPrice));  
+    }
+  }, []);
+
+  useEffect(() => {
+    const savedShippingInfo = sessionStorage.getItem("shippingInfo");
+    if (savedShippingInfo) {
+      setShippingInfo(JSON.parse(savedShippingInfo)); 
+    }
+  }, []);
 
   const proceedToPayment = () => {
-    navigate("/payment", { state: { totalPrice } });
+
+    if (!shippingInfo) {
+      alert("Vui lòng lưu thông tin giao hàng trước khi tiếp tục.");
+      return;
+    }
+
+    sessionStorage.setItem("shippingInfo", JSON.stringify(shippingInfo));
+    navigate("/payment", { state: { totalPrice: storedTotalPrice } });
+  };
+
+  const handleSaveShippingInfo = (info) => {
+
+    setShippingInfo(info);
+    sessionStorage.setItem("shippingInfo", JSON.stringify(info));
   };
 
   return (
@@ -34,21 +56,25 @@ const Checkout = () => {
 
       <h2 className="text-2xl font-bold text-center mb-4">Tóm tắt đơn hàng</h2>
 
-      {/* Hiển thị sản phẩm tóm tắt */}
+
       <div className="border-b pb-4 mb-4">
-        {cartItems.map((item) => (
-          <CartItem key={item.id} item={item} isSummary={true} />
-        ))}
+        {selectedItems.length > 0 ? (
+          selectedItems.map((item) => (
+            <CartItem key={item.id} item={item} isSummary={true} />
+          ))
+        ) : (
+          <p>Chưa có sản phẩm nào được chọn</p>
+        )}
       </div>
 
       <div className="text-right text-lg font-semibold mb-4">
-        <p>Tạm tính: {totalPrice.toLocaleString()} ₫</p>
+        <p>Tạm tính: {storedTotalPrice.toLocaleString()} ₫</p>
         <p>Giao hàng: Miễn phí</p>
         <p>Giảm giá: - 0 ₫</p>
-        <p className="font-bold">Tổng tiền: {totalPrice.toLocaleString()} ₫</p>
+        <p className="font-bold">Tổng tiền: {storedTotalPrice.toLocaleString()} ₫</p>
       </div>
 
-      <ShippingInfo />
+      <ShippingInfo onSaveInfo={handleSaveShippingInfo} />
 
       <button
         onClick={proceedToPayment}
