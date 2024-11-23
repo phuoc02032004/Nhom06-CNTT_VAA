@@ -120,7 +120,7 @@ const Header = () => {
                 >
                   <ul className="text-brown-600">
                     <li className=" pr-4 font-bold text-[#6b4226]  ">
-                      <Link to="/tin-tuc">Tin Tức</Link>
+                      <Link to="/news">Tin Tức</Link>
                     </li>
                     <li className="pr-4 font-bold text-[#6b4226] ">
                       <Link to="/su-kien">Sự Kiện</Link>

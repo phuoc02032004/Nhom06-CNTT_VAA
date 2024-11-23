@@ -16,6 +16,9 @@ import DeliveryAndReturns from "./pages/DeliveryAndReturns"; // Giao hàng và �
 import DieuKienVIP from "./pages/DieuKienVIP"; // Nhập trang DieuKienVIP
 import ProductDetail from "./pages/DetailProduct";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import News from './pages/News';
+import Events from './pages/Events';
+
 
 function App() {
   return (
@@ -36,6 +39,8 @@ function App() {
           <Route path="/dieu-kien-vip" element={<DieuKienVIP />} /> 
           <Route path="ProductDetail" element={<ProductDetail/>} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/su-kien" element={<Events />} />
 
 
 
