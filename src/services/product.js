@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3003/products';
+const API_URL = 'http://localhost:3003/api/v1/products';
 
 export const getAllProducts = async () => {
     try {
@@ -11,6 +11,16 @@ export const getAllProducts = async () => {
         throw error;
     }
 };
+
+export const getProductId = async (id) => {
+    try {
+        const response = await axios.get(`${API_URL}/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching product ID:', error);
+        throw error;
+    }
+}
 
 export const createProduct = async (productData) => {
     try {

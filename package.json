@@ -14,12 +14,14 @@
     "url": "https://tailadmin.com"
   },
   "dependencies": {
+    "@types/jwt-decode": "^3.1.0",
     "antd": "^5.21.6",
     "apexcharts": "^3.41.0",
     "axios": "^1.7.7",
     "flatpickr": "^4.6.13",
     "headlessui": "^0.0.0",
     "jsvectormap": "^1.5.3",
+    "jwt-decode": "^4.0.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",

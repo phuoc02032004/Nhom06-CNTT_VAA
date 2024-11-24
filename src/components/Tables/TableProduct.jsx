@@ -83,7 +83,7 @@ const TableProduct = () => {
                                     {product.category}
                                 </td>
                                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                    ${product.price}
+                                    {product.price}
                                 </td>
                                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                     <div className="flex items-center space-x-3.5">

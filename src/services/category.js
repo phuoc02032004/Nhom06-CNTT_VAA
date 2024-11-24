@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getAllCategory = async () => {
     try {
-        const response = await axios.get('http://localhost:3003/categories');
+        const response = await axios.get('http://localhost:3003/api/v1/categories');
         console.log(response.data);
         return response.data.map(category => ({
             id: category._id,
@@ -17,7 +17,7 @@ const getAllCategory = async () => {
 
 const createCategory = async (name, description) => {
     try {
-        const response = await axios.post('http://localhost:3003/categories', {
+        const response = await axios.post('http://localhost:3003/api/v1/categories', {
             name: name,
             description: description,
         }, {
@@ -37,7 +37,7 @@ const createCategory = async (name, description) => {
 
 const updateCategory = async (id, name, description) => {
     try {
-        const response = await axios.put(`http://localhost:3003/categories/${id}`, {
+        const response = await axios.put(`http://localhost:3003/api/v1/categories/${id}`, {
             name: name,
             description: description
         });
@@ -53,7 +53,7 @@ const updateCategory = async (id, name, description) => {
 
 const deleteCategory = async (id) => {
     try {
-        const response = await axios.delete(`http://localhost:3003/categories/${id}`);
+        const response = await axios.delete(`http://localhost:3003/api/v1/categories/${id}`);
         console.log('Category Deleted:', response.data);
     } catch (error) {
         console.error('Error deleting Category:', error.response ? error.response.data : error.message);

@@ -1,6 +1,36 @@
 import axios from 'axios';
+// import jwt_decode from 'jwt-decode';
 
 const API_URL = 'http://localhost:3003/users';
+
+export const loginAdmin = async (email, password) => {
+  try {
+    const response = await axios.post('http://localhost:3003/api/v1/users/login', {
+      email,
+      password
+    });
+
+    // if (!response.data.token) {
+    //   throw new Error("Không có token trả về.");
+    // }
+
+    // const { token } = response.data.token;
+    // const decoded = jwt_decode(token);
+
+    // console.log(decodedToken);
+
+    // if (decoded.role !== "admin") {
+    //   throw new Error("Bạn không có quyền truy cập admin.");
+    // }
+
+    // localStorage.setItem("adminToken", token);
+
+    return response;
+  } catch (error) {
+    console.error('Login error:', error);
+    throw error;
+  }
+};
 
 // Lấy danh sách tất cả người dùng
 export const getAllUsers = async (token) => {

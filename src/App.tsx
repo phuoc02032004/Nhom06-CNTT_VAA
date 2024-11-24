@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes, useLocation, Router } from 'react-router-dom';
 
 import Loader from './common/Loader';
 import PageTitle from './components/PageTitle';
@@ -36,154 +36,172 @@ function App() {
   return loading ? (
     <Loader />
   ) : (
-    <DefaultLayout>
-      <Routes>
-        <Route
-          index
-          element={
-            <>
-              <PageTitle title="eCommerce Dashboard " />
+
+    <Routes>
+      <Route
+        path="/login"
+        element={
+          <>
+            <SignIn />
+          </>
+        }
+      />
+
+      <Route
+        path='/'
+        element={
+          <>
+            <PageTitle title="eCommerce Dashboard " />
+            <DefaultLayout>
               <ECommerce />
-            </>
-          }
-        />
-        <Route
-          path="/category"
-          element={
-            <>
-              <PageTitle title="Category " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/category"
+        element={
+          <>
+            <PageTitle title="Category " />
+            <DefaultLayout>
               <Category />
-            </>
-          }
-        />
-        <Route
-          path="/product"
-          element={
-            <>
-              <PageTitle title="Product " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/product"
+        element={
+          <>
+            <PageTitle title="Product " />
+            <DefaultLayout>
               <Productt />
-            </>
-          }
-        />
-        <Route
-          path="/user"
-          element={
-            <>
-              <PageTitle title="User " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/user"
+        element={
+          <>
+            <PageTitle title="User " />
+            <DefaultLayout>
               <User />
-            </>
-          }
-        />
-        <Route
-          path="/order"
-          element={
-            <>
-              <PageTitle title="Order " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/order"
+        element={
+          <>
+            <PageTitle title="Order " />
+            <DefaultLayout>
               <Order />
-            </>
-          }
-        />
-        <Route
-          path="/calendar"
-          element={
-            <>
-              <PageTitle title="Calendar " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/calendar"
+        element={
+          <>
+            <PageTitle title="Calendar " />
+            <DefaultLayout>
               <Calendar />
-            </>
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-            <>
-              <PageTitle title="Profile " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <>
+            <PageTitle title="Profile " />
+            <DefaultLayout>
               <Profile />
-            </>
-          }
-        />
-        <Route
-          path="/forms/form-elements"
-          element={
-            <>
-              <PageTitle title="Form Elements " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/forms/form-elements"
+        element={
+          <>
+            <PageTitle title="Form Elements " />
+            <DefaultLayout>
               <FormElements />
-            </>
-          }
-        />
-        <Route
-          path="/forms/form-layout"
-          element={
-            <>
-              <PageTitle title="Form Layout " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/forms/form-layout"
+        element={
+          <>
+            <PageTitle title="Form Layout " />
+            <DefaultLayout>
               <FormLayout />
-            </>
-          }
-        />
-        <Route
-          path="/tables"
-          element={
-            <>
-              <PageTitle title="Tables " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/tables"
+        element={
+          <>
+            <PageTitle title="Tables " />
+            <DefaultLayout>
               <Tables />
-            </>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <>
-              <PageTitle title="Settings " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <>
+            <PageTitle title="Settings " />
+            <DefaultLayout>
               <Settings />
-            </>
-          }
-        />
-        <Route
-          path="/chart"
-          element={
-            <>
-              <PageTitle title="Basic Chart " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/chart"
+        element={
+          <>
+            <PageTitle title="Basic Chart " />
+            <DefaultLayout>
               <Chart />
-            </>
-          }
-        />
-        <Route
-          path="/ui/alerts"
-          element={
-            <>
-              <PageTitle title="Alerts " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/ui/alerts"
+        element={
+          <>
+            <PageTitle title="Alerts " />
+            <DefaultLayout>
               <Alerts />
-            </>
-          }
-        />
-        <Route
-          path="/ui/buttons"
-          element={
-            <>
-              <PageTitle title="Buttons " />
+            </DefaultLayout>
+          </>
+        }
+      />
+      <Route
+        path="/ui/buttons"
+        element={
+          <>
+            <PageTitle title="Buttons " />
+            <DefaultLayout>
               <Buttons />
-            </>
-          }
-        />
-        <Route
-          path="/auth/signin"
-          element={
-            <>
-              <PageTitle title="Signin " />
-              <SignIn />
-            </>
-          }
-        />
-        <Route
-          path="/auth/signup"
-          element={
-            <>
-              <PageTitle title="Signup " />
-              <SignUp />
-            </>
-          }
-        />
-      </Routes>
-    </DefaultLayout>
+            </DefaultLayout>
+          </>
+        }
+      />
+    </Routes>
   );
 }
 
