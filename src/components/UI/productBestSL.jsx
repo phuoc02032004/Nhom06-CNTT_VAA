@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import {AddtoCart} from "../../services/cart"
+import { AddtoCart } from "../../services/cart"
 
 const IconButton = memo(({ icon, onClick }) => (
   <button
@@ -25,15 +25,21 @@ const ProductCard = ({
   const navigate = useNavigate();
 
   const handleViewProduct = () => {
-    navigate(`/ProductDetail/`); 
+    try {
+      id = id
+      navigate(`/ProductDetail/${id}`);
+    } catch (error) {
+      console.error("Error to get product detail:", error);
+      alert("Failed to get product detail. Please try again.");
+    }
   };
 
   const handleAddToCart = async () => {
     try {
       const userID = localStorage.getItem("userID")
       console.log(userID)
-      await AddtoCart(userID, id);
-      alert(`Added ${title} to cart`); 
+      await AddtoCart(userID, id, 1);
+      alert(`Added ${title} to cart`);
     } catch (error) {
       console.error("Error adding to cart:", error);
       alert("Failed to add to cart. Please try again.");
@@ -44,7 +50,7 @@ const ProductCard = ({
     <div className="w-full max-w-xs mx-auto">
       <div className="relative group">
         <img
-        
+
           src={image}
           alt={title}
           className="w-full h-auto rounded-lg transition-transform transform group-hover:scale-105 cursor-pointer"
@@ -57,7 +63,7 @@ const ProductCard = ({
         </div>
       </div>
       <div className="text-center mt-4">
-       
+
         <h3 className="text-lg font-semibold">{title}</h3>
         <p className="text-gray-500 text-xl font-bold">{price}₫</p>
       </div>

@@ -2,15 +2,6 @@ import React, { useEffect, useState } from "react";
 import { getProducts } from "../services/products"; 
 import ProductList from "../components/UI/productBestSL";
 import PathName from "../components/UI/path";
-import sp1 from "../assets/sp1.webp";
-import sp2 from "../assets/sp2.webp";
-import sp3 from "../assets/sp3.webp";
-
-const products = [
-  {id:1, image: sp1, title: "N BIG CIRCLE GEM LAUREL", price: "590.000" },
-  {id:2, image: sp2, title: "N DEER HORN", price: "490.000" },
-  {id:3, image: sp3, title: "ANK MULTI BUBBLE HEART OVAL CHAIN", price: "450.000" },
-];
 
 const Section = ({ children, className, style }) => (
   <section className={className} style={style}>

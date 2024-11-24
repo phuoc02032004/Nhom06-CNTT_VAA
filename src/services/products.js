@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const getProducts = async () => {
+export const getProducts = async () => {
   try {
     const response = await axios.get('http://localhost:3003/api/v1/products');
     return response.data;
@@ -9,4 +9,11 @@ const getProducts = async () => {
   }
 };
 
-export { getProducts };
+export const getProductId = async (id) => {
+  try {
+    const response = await axios.get(`http://localhost:3003/api/v1/products/${id}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

@@ -36,14 +36,11 @@ function App() {
           <Route path="/huong-dan-do-size" element={<MeasureSize />} />
           <Route path="/bao-hanh-bao-quan" element={<WarrantyAndCare />} />
           <Route path="/giao-hang-doi-hang" element={<DeliveryAndReturns />} />
-          <Route path="/dieu-kien-vip" element={<DieuKienVIP />} /> 
-          <Route path="ProductDetail" element={<ProductDetail/>} />
+          <Route path="/dieu-kien-vip" element={<DieuKienVIP />} />
+          <Route path="ProductDetail/:id" element={<ProductDetail />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/news" element={<News />} />
           <Route path="/su-kien" element={<Events />} />
-
-
-
         </Route>
       </Routes>
     </Router>
