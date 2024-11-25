@@ -2,6 +2,7 @@ import React, { memo } from "react";
 import { useNavigate } from "react-router-dom";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { AddtoCart } from "../../services/cart"
+import noFound from "../../assets/nofound.jpg";
 
 const IconButton = memo(({ icon, onClick }) => (
   <button
@@ -76,17 +77,27 @@ const ProductList = ({ products }) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-      {products.map((product, index) => (
-        <ProductCard
-          key={index}
-          id={product._id} // Sử dụng _id nếu đó là tên thuộc tính ID
-          image={product.image}
-          title={product.title}
-          price={product.price}
-          onAddToCart={() => alert(`Added ${product.id} to cart`)} // Sử dụng _id ở đây nếu cần
-          onFavorite={() => alert(`Added ${product.title} to favorites`)}
-        />
-      ))}
+      {products.length > 0 ? (
+        products.map((product, index) => (
+          <ProductCard
+            key={index}
+            id={product._id}
+            image={product.image}
+            title={product.title}
+            price={product.price}
+            onAddToCart={() => alert(`Added ${product.id} to cart`)} // Sử dụng _id ở đây nếu cần
+            onFavorite={() => alert(`Added ${product.title} to favorites`)}
+          />
+        ))
+      ) : (
+        <div className="col-span-full flex justify-center items-center">
+          <img
+            src={noFound}
+            alt="No products found"
+            className="w-1/2 object-contain"
+          />
+        </div>
+      )}
     </div>
   );
 };

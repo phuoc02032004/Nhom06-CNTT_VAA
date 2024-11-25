@@ -18,6 +18,7 @@ import ProductDetail from "./pages/DetailProduct";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import News from './pages/News';
 import Events from './pages/Events';
+import ProductCategory from './pages/ProductCategory';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path="/giao-hang-doi-hang" element={<DeliveryAndReturns />} />
           <Route path="/dieu-kien-vip" element={<DieuKienVIP />} />
           <Route path="ProductDetail/:id" element={<ProductDetail />} />
+          <Route path="/product/:id" element={<ProductCategory />} />
           <Route path="/payment-success" element={<PaymentSuccess />} />
           <Route path="/news" element={<News />} />
           <Route path="/su-kien" element={<Events />} />
