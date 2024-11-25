@@ -1,11 +1,11 @@
 import axios from 'axios';
 // import jwt_decode from 'jwt-decode';
 
-const API_URL = 'http://localhost:3003/users';
+const API_URL = 'http://localhost:3003/api/v1/users';
 
 export const loginAdmin = async (email, password) => {
   try {
-    const response = await axios.post('http://localhost:3003/api/v1/users/login', {
+    const response = await axios.post(API_URL, {
       email,
       password
     });
@@ -33,7 +33,7 @@ export const loginAdmin = async (email, password) => {
 };
 
 // Lấy danh sách tất cả người dùng
-export const getAllUsers = async (token) => {
+export const getAllUsers = async () => {
   try {
     const response = await axios.get(API_URL, {
       headers: {
