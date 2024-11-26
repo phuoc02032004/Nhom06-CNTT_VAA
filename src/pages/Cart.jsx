@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../components/UI/Product_in_cart";
-import { getCartByUserId, removeCartItem, updateCart } from "../services/cart"; // Đảm bảo import updateCart
+import { getCartByUserId, removeCartItem, updateCart } from "../services/cart"; 
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const Cart = () => {
           name: item.product.name,
           price: item.product.price,
           quantity: item.quantity,
-          image: item.product.images[0],
+          image: item.product.images[0]?.url,
         }));
 
         setCartItems(formattedProducts);
@@ -80,9 +80,21 @@ const Cart = () => {
     .filter((item) => item.selected)
     .reduce((total, item) => total + item.price * item.quantity, 0);
 
-  const handleProceedToPayment = () => {
-    navigate("/checkout");
-  };
+    const handleProceedToPayment = () => {
+
+      const selectedItems = cartItems.filter((item) => item.selected);
+    
+      sessionStorage.setItem("totalPrice", totalPrice);
+    
+   
+      navigate("/checkout", {
+        state: {
+          selectedItems,  
+          totalPrice,   
+        },
+      });
+    };
+    
 
   return (
     <div className="w-3/4 mx-auto bg-white shadow-md rounded-lg p-4">
@@ -109,7 +121,7 @@ const Cart = () => {
 
             key={item.id}
             item={item}
-            onQuantityChange={handleQuantityChange} // Truyền hàm cập nhật số lượng
+            onQuantityChange={handleQuantityChange}
             onRemove={() => handleRemove(item.id)}
             onSelect={() => handleSelectItem(item.id)}
           />

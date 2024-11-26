@@ -1,20 +1,30 @@
-import React from "react";
+
 import PaymentInfo from "../components/UI/PaymentInfo"; // Để chọn phương thức thanh toán
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { createPaymentUrl } from "../services/payment"
+
+import React, { useState } from "react";
 
 const Payment = () => {
-  const navigate = useNavigate();
   const location = useLocation();
-
-  // Lấy giá trị `totalPrice` từ `Checkout`
   const totalPrice = location.state?.totalPrice || 0;
 
-  const handlePaymentConfirmation = () => {
-    // Xử lý logic thanh toán ở đây, ví dụ như gửi dữ liệu đến API
-    console.log("Thanh toán thành công");
+  const [isLoading, setIsLoading] = useState(false);
 
-    // Điều hướng đến trang xác nhận thanh toán hoặc trang cảm ơn
-    navigate("/confirmation");
+  const handlePayment = async () => {
+    setIsLoading(true);
+    try {
+      const paymentUrl = await createPaymentUrl(totalPrice);
+      if (paymentUrl) {
+        window.location.href = paymentUrl;
+      } else {
+        alert('Không thể tạo URL thanh toán. Vui lòng thử lại.');
+      }
+    } catch (error) {
+      alert('Đã xảy ra lỗi khi xử lý thanh toán. Vui lòng thử lại.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -22,22 +32,19 @@ const Payment = () => {
       <Link to="/checkout" className="text-blue-500 mb-4 flex items-center">
         &larr; Quay lại
       </Link>
-
       <h2 className="text-2xl font-bold text-center mb-4">Thanh toán</h2>
-
-      {/* Tổng cộng */}
       <div className="text-right text-lg font-semibold my-4">
         <p>Tổng tiền: {totalPrice.toLocaleString()} ₫</p>
       </div>
-
-      {/* Phương thức thanh toán */}
       <PaymentInfo />
-
       <button
-        onClick={handlePaymentConfirmation}
-        className="w-full bg-[#2c1409] text-white py-3 rounded mt-4 hover:bg-blue-700"
+        onClick={handlePayment}
+        disabled={isLoading}
+        className={`w-full py-3 rounded mt-4 ${
+          isLoading ? 'bg-gray-400' : 'bg-[#2c1409] hover:bg-blue-700 text-white'
+        }`}
       >
-        Xác nhận thanh toán
+        {isLoading ? 'Đang xử lý...' : 'Xác nhận thanh toán'}
       </button>
     </div>
   );

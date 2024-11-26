@@ -1,0 +1,84 @@
+/* src/styles/Events.css */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .breadcrumb {
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .breadcrumb a {
+    color: #2E1C11;
+    text-decoration: none;
+  }
+  
+  .page-title {
+    font-size: 24px;
+    color: #2E1C11;
+    margin-bottom: 30px;
+  }
+  
+  .events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .event-item {
+    border-bottom: 1px solid #eee;
+    padding-bottom: 30px;
+  }
+  
+  .event-image {
+    display: block;
+    margin-bottom: 15px;
+  }
+  
+  .event-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  
+  .event-date {
+    color: #666;
+    margin-bottom: 10px;
+  }
+  
+  .event-title {
+    margin: 0 0 10px;
+    font-size: 20px;
+  }
+  
+  .event-title a {
+    color: #2E1C11;
+    text-decoration: none;
+  }
+  
+  .event-title a:hover {
+    color: #4a3223;
+  }
+  
+  .event-meta {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+  }
+  
+  .event-description {
+    color: #444;
+    line-height: 1.6;
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+    
+    .event-item {
+      padding-bottom: 20px;
+    }
+  }

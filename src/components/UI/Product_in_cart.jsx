@@ -22,9 +22,11 @@ const CartItem = ({
         alt={item.name}
         className="w-12 h-12 object-cover"
       />
+    
       <div className="flex flex-col">
         <p className="text-md font-bold text-blue-700">{item.name}</p>
-        <p className="text-gray-500 text-sm">Mã: {item.code}</p>
+        <p className="text-gray-500 text-sm">Code: {item.code}</p>
+        <p className="text-gray-500 text-sm">Amount: {item.quantity}</p>
       </div>
     </div>
 

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { FaHome } from "react-icons/fa";
+
 import { useNavigate } from "react-router-dom";
 import log from "../assets/log.png";
 import { loginUser, registerUser, verify } from "../services/user";
 import { jwtDecode } from "jwt-decode";
-
+import PathName from "../components/UI/path";
 
 const InputField = ({ label, type, placeholder, value, onChange }) => (
   <div>
@@ -34,8 +34,8 @@ function LoginForm() {
     try {
       const response = await loginUser(email, password);
       const decoded = jwtDecode(response.data.token);
-      localStorage.setItem("userID", decoded.id)
-      console.log(decoded.id)
+      localStorage.setItem("userID", decoded.id);
+      console.log(decoded.id);
       console.log(localStorage.getItem("userID", decoded.id));
       localStorage.setItem("token", response.data.token);
       navigate("/");
@@ -44,28 +44,24 @@ function LoginForm() {
     }
   };
 
-  
-      
-    
-
-
   const handlePasswordReset = async (e) => {
     e.preventDefault();
 
-    console.log("Password reset requested for email:", email); 
+    console.log("Password reset requested for email:", email);
   };
 
   return (
     <div className="max-w-5xl mx-auto py-10">
       <img src={log} alt="log" className="mb-4" />
 
-      <div className="flex items-center space-x-2 text-brown-800 mb-6">
-        <FaHome className="text-lg" />
-        <span onClick={() => navigate("/")} className="cursor-pointer hover:underline">
-          Trang chủ
-        </span>
-        <span className="text-gray-500">/</span>
-        <span className="font-semibold">Đăng nhập tài khoản</span>
+      <div>
+        <PathName
+          paths={[
+            { label: "Trang chủ", onClick: (navigate) => navigate("/") },
+
+            { label: "Đăng Nhập", active: true },
+          ]}
+        />
       </div>
 
       <div className="w-full max-w-md">
@@ -74,7 +70,10 @@ function LoginForm() {
           {showPasswordReset ? "Quên mật khẩu?" : "Đăng nhập tài khoản"}
         </h2>
 
-        <form onSubmit={showPasswordReset ? handlePasswordReset : handleLogin} className="space-y-4">
+        <form
+          onSubmit={showPasswordReset ? handlePasswordReset : handleLogin}
+          className="space-y-4"
+        >
           {!showPasswordReset && (
             <>
               <InputField
@@ -125,13 +124,19 @@ function LoginForm() {
         </form>
 
         {!showPasswordReset && (
-          <p className="text-brown-800 cursor-pointer hover:underline" onClick={() => navigate("/register")}>
+          <p
+            className="text-brown-800 cursor-pointer hover:underline"
+            onClick={() => navigate("/register")}
+          >
             Đăng ký
           </p>
         )}
 
         {showPasswordReset && (
-          <p className="text-brown-800 cursor-pointer hover:underline" onClick={() => setShowPasswordReset(false)}>
+          <p
+            className="text-brown-800 cursor-pointer hover:underline"
+            onClick={() => setShowPasswordReset(false)}
+          >
             Quay lại đăng nhập
           </p>
         )}
