@@ -26,13 +26,12 @@ const ImgTop = () => (
 
 function App() {
   const [products, setProducts] = useState([]);
-  const location = useLocation(); // Lấy thông tin từ navigate (Header)
+  const location = useLocation();
   const { query, results } = location.state || { query: "", results: [] };
 
   useEffect(() => {
     const fetchProducts = async () => {
       if (results && results.length > 0) {
-        // Nếu có kết quả từ tìm kiếm, hiển thị chúng
         const formattedResults = results.map((product) => ({
           _id: product._id,
           image: product.images[0]?.url,
@@ -44,27 +43,28 @@ function App() {
         }));
         setProducts(formattedResults);
       } else {
-        // Nếu không có kết quả, tải toàn bộ sản phẩm
-        try {
-          const fetchedProducts = await getProducts();
-          const formattedProducts = fetchedProducts.map((product) => ({
-            _id: product._id,
-            image: product.images[0]?.url,
-            title: product.name,
-            price: product.price.toLocaleString("vi-VN", {
-              style: "currency",
-              currency: "VND",
-            }),
-          }));
-          setProducts(formattedProducts);
-        } catch (error) {
-          console.error("Error fetching products:", error);
+        if (products.length === 0) {
+          try {
+            const fetchedProducts = await getProducts();
+            const formattedProducts = fetchedProducts.map((product) => ({
+              _id: product._id,
+              image: product.images[0]?.url,
+              title: product.name,
+              price: product.price.toLocaleString("vi-VN", {
+                style: "currency",
+                currency: "VND",
+              }),
+            }));
+            setProducts(formattedProducts);
+          } catch (error) {
+            console.error("Error fetching products:", error);
+          }
         }
       }
     };
 
     fetchProducts();
-  }, [results]);
+  }, [results, products.length]);
 
   return (
     <div className="imgTop">
