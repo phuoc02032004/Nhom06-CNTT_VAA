@@ -16,14 +16,12 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const storedUser = localStorage.getItem("userID");
     const storedToken = localStorage.getItem("token");
 
     if (storedUser && storedToken) {
       try {
-        const userData = JSON.parse(storedUser);
-        console.log("Thông tin người dùng từ localStorage:", userData);
-        setUser(userData);
+        setUser(storedUser);
         setToken(storedToken);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu từ localStorage:", error);
@@ -32,7 +30,7 @@ const Header = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    localStorage.removeItem("userID");
     localStorage.removeItem("token");
     setUser(null);
     setToken(null);
@@ -114,19 +112,27 @@ const Header = () => {
           {/* Kiểm tra nếu người dùng đã đăng nhập */}
           <div className="relative">
             {user ? (
-              <div className="flex items-center space-x-2">
-                <img
-                  src={user.avatar || "default_avatar_url"} // Hiển thị avatar người dùng
-                  alt="User Avatar"
-                  className="w-8 h-8 rounded-full"
-                />
-                <span className="text-brown-600">{user.name}</span>
-                <button
-                  onClick={handleLogout}
-                  className="text-brown-600 hover:text-red-500"
-                >
-                  Đăng xuất
-                </button>
+              <div
+                className="relative"
+                onMouseEnter={() => toggleMenu("account")}
+                onMouseLeave={handleMouseLeave}
+              >
+                <i className="ri-user-line text-brown-600 text-2xl cursor-pointer"></i>
+
+                {openMenu === "account" && (
+                  <div className="absolute right-0 mt-2 bg-white border border-gray-300 shadow-lg w-40 p-3 z-50">
+                    <ul>
+                      <li className="flex items-center space-x-2 text-gray-600 hover:text-black">
+                        <i className="ri-user-line"></i>
+                        <Link to="/profile">Hồ Sơ</Link>
+                      </li>
+                      <li className="flex items-center space-x-2 mt-2 text-gray-600 hover:text-black">
+                        <i className="ri-lock-line"></i>
+                        <span onClick={handleLogout} className="cursor-pointer">Đăng Xuất</span>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             ) : (
               <div

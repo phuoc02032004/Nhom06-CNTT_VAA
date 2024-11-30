@@ -35,10 +35,8 @@ function LoginForm() {
       const response = await loginUser(email, password);
       const decoded = jwtDecode(response.data.token);
       localStorage.setItem("userID", decoded.id);
-      console.log(decoded.id);
-      console.log(localStorage.getItem("userID", decoded.id));
       localStorage.setItem("token", response.data.token);
-      navigate("/");
+      window.location.href = "/";
     } catch (error) {
       setErrorMessage(error.message);
     }
