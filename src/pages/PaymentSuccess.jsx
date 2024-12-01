@@ -44,18 +44,17 @@ const PaymentSuccess = () => {
 
     useEffect(() => {
         if (isSuccess && shippingInfo) {
-            let products = [];
             const selectedProduct = sessionStorage.getItem("selectedItems");
-            if (selectedProduct) {
-                const parsedProduct = JSON.parse(selectedProduct);
-          
-                products = parsedProduct.map(item => ({
-                    product: item.id,
-                    quantity: item.quantity,
-                    price: item.price / 100,  
-                }));
-            }
-            console.log(products)
+            if (!selectedProduct) return;
+
+            const parsedProduct = JSON.parse(selectedProduct);
+            const products = parsedProduct.map(item => ({
+                product: item.id,
+                quantity: item.quantity,
+                price: item.price / 100,
+            }));
+
+            console.log("Products to order:", products);
 
             const orderData = {
                 user: localStorage.getItem("userID"),
@@ -63,8 +62,11 @@ const PaymentSuccess = () => {
                 Hoten: shippingInfo.name,
                 SoDT: shippingInfo.phone,
                 email: shippingInfo.email,
-                shippingAddress: shippingInfo.address + shippingInfo.province + shippingInfo.district + shippingInfo.ward,
-
+                shippingAddress:
+                    shippingInfo.address +
+                    shippingInfo.province +
+                    shippingInfo.district +
+                    shippingInfo.ward,
                 products: products,
                 total: amount / 100,
                 status: "pending",
@@ -73,6 +75,8 @@ const PaymentSuccess = () => {
             };
 
             setLoading(true);
+
+            // Create order
             fetch('http://localhost:3003/api/v1/orders', {
                 method: 'POST',
                 headers: {
@@ -80,24 +84,70 @@ const PaymentSuccess = () => {
                 },
                 body: JSON.stringify(orderData),
             })
-                .then((response) => response.json())
-                .then((data) => {
+                .then(response => response.json())
+                .then(data => {
                     setLoading(false);
-                    console.log("Đơn hàng đã được tạo thành công", data);
-                    sessionStorage.removeItem("shippingInfo")
-                    sessionStorage.removeItem("selectedItems")
+                    console.log("Order created successfully:", data);
+
+
+                    Promise.all(
+                        parsedProduct.map(item => {
+                            return fetch(`http://localhost:3003/api/v1/products/${item.id}`)
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error(`Failed to fetch product data for ID: ${item.id}`);
+                                    }
+                                    return response.json();
+
+                                })
+                                .then(productData => {
+                                    const currentStock = productData.stock;
+                                    const updatedQuantity = currentStock - item.quantity;
+                                    console.log(updatedQuantity);
+                                    return fetch(`http://localhost:3003/api/v1/products/${item.id}`, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify({
+                                            stock: updatedQuantity,
+                                        }),
+                                    })
+                                        .then(response => {
+
+                                            console.log(response);
+                                            if (!response.ok) {
+                                                throw new Error(`Failed to update product quantity for ID: ${item.id}`);
+                                            }
+                                            return response.json();
+                                        })
+                                        .then(updatedData => {
+                                            console.log(`Product ID: ${item.id} updated successfully:`, updatedData);
+                                        });
+                                })
+                                .catch(error => {
+                                    console.error(`Error processing product ID: ${item.id}`, error);
+                                });
+                        })
+                    ).then(() => {
+                        console.log("All product quantities updated.");
+                    });
+
+
+                    // Clear session storage
+                    //    sessionStorage.removeItem("shippingInfo");
+                    //     sessionStorage.removeItem("selectedItems");
                 })
-                .catch((error) => {
+                .catch(error => {
                     setLoading(false);
-                    setError("Đã có lỗi xảy ra khi tạo đơn hàng.");
-                    console.error("Đã có lỗi xảy ra khi tạo đơn hàng:", error);
+                    console.error("Error creating order:", error);
                 });
         }
     }, [isSuccess, shippingInfo, transactionId, amount]);
 
     return (
         <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-8 mt-10">
-            <h1 className={`text-3xl font-bold text-center mb-6 ${isSuccess ? "text-green-600" : "text-red-600"}`}>
+            <h1 className={`text - 3xl font - bold text - center mb - 6 ${isSuccess ? "text-green-600" : "text-red-600"}`}>
                 {isSuccess ? "Thanh toán thành công!" : "Thanh toán thất bại!"}
             </h1>
             <div className="text-center text-lg mb-8">
@@ -149,7 +199,7 @@ const PaymentSuccess = () => {
                     </div>
                     <div>
                         <p className="font-medium">Trạng thái giao dịch:</p>
-                        <p className={`font-semibold ${isSuccess ? "text-green-600" : "text-red-600"}`}>
+                        <p className={`font - semibold ${isSuccess ? "text-green-600" : "text-red-600"}`}>
                             {isSuccess ? "Thành công" : "Thất bại"}
                         </p>
                     </div>

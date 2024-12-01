@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import CartItem from "../components/UI/Product_in_cart";
-import { getCartByUserId, removeCartItem, updateCart } from "../services/cart"; 
+import { getCartByUserId, removeCartItem, updateCart } from "../services/cart";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -48,12 +48,12 @@ const Cart = () => {
 
   const handleRemove = async (id) => {
     try {
-     const cartId = cart._id
+      const cartId = cart._id
       console.log(id)
-     const confirm = window.confirm("Are you want to delete this product !")
-      if(confirm){
-      await removeCartItem(cartId, id);
-      setCartItems((items) => items.filter((item) => item.id !== id));
+      const confirm = window.confirm("Are you want to delete this product !")
+      if (confirm) {
+        await removeCartItem(cartId, id);
+        setCartItems((items) => items.filter((item) => item.id !== id));
       }
     } catch (error) {
       console.error("Error removing item from cart:", error);
@@ -81,21 +81,39 @@ const Cart = () => {
     .reduce((total, item) => total + item.price * item.quantity, 0);
 
     const handleProceedToPayment = () => {
-
       const selectedItems = cartItems.filter((item) => item.selected);
+
+      Promise.all(
+        selectedItems.map(item => {
+          return fetch(`http://localhost:3003/api/v1/products/${item.id}`)
+            .then(response => {
+              return response.json();
+            })
+            .then(productData => {
+              return {
+                ...item,
+                stock: productData.stock,
+              };
+            });
+        })
+      ).then(productsWithStock => {
+     
+        const insufficientStock = productsWithStock.find(item => item.stock < item.quantity);
     
-      sessionStorage.setItem("totalPrice", totalPrice);
-    
-   
-      navigate("/checkout", {
-        state: {
-          selectedItems,  
-          totalPrice,   
-        },
-      });
+        if (insufficientStock) {
+          alert(`The stock of ${insufficientStock.name} is not enough to implement this order!`);
+        } else {
+          sessionStorage.setItem("totalPrice", totalPrice);
+          navigate("/checkout", {
+            state: {
+              selectedItems,
+              totalPrice,
+            },
+          });
+        }
+      })
     };
     
-
   return (
     <div className="w-3/4 mx-auto bg-white shadow-md rounded-lg p-4">
       <Link to="/" className="text-blue-500 mb-2 flex items-center">
