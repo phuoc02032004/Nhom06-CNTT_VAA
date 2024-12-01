@@ -6,31 +6,27 @@ const orderSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-
-    paymentId:{
-        type:String,
-        required: true
-    },
-
-    Hoten:{
+    paymentId: {
         type: String,
         required: true
     },
-
-    SoDT:{
+    Hoten: {
         type: String,
         required: true
     },
-
-    email:{
+    SoDT: {
         type: String,
-        required:true
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
     },
     products: [
         {
             product: {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: 'Product', 
+                ref: 'Product',
                 required: true
             },
             quantity: {
@@ -40,7 +36,8 @@ const orderSchema = new mongoose.Schema({
             price: {
                 type: Number,
                 required: true
-            }
+            },
+            isReviewed: { type: Boolean, default: false }
         }
     ],
     total: {
@@ -50,7 +47,7 @@ const orderSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ['pending', 'processing', 'shipped', 'completed', 'cancelled'],
-        default: 'pending'
+        default: 'completed'
     },
     shippingAddress: {
         type: String,

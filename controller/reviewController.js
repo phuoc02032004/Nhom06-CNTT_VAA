@@ -1,46 +1,58 @@
-const reviewService = require('../services/reviewService');
+const ReviewService = require('../services/reviewService');
 
-exports.createReview = async (req, res) => {
-    try {
-        const savedReview = await reviewService.createReview(req.body);
-        res.status(201).json(savedReview);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
+class ReviewController {
+    async createReview(req, res) {
+        try {
+            const newReview = await ReviewService.createReview(req.body);
+            res.status(201).json(newReview);
+        } catch (error) {
+            console.error("Error creating review:", error);
+            res.status(error.statusCode || 500).json({ message: error.message || 'Lỗi tạo đánh giá.' });
+        }
     }
-};
 
-exports.getAllReviews = async (req, res) => {
-    try {
-        const reviews = await reviewService.getAllReviews();
-        res.status(200).json(reviews);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+    async getReviews(req, res) {
+        try {
+            const reviews = await ReviewService.getReviews(req.query);
+            res.json(reviews);
+        } catch (error) {
+            console.error("Error getting reviews:", error);
+            res.status(500).json({ message: error.message || 'Lỗi lấy đánh giá.' });
+        }
     }
-};
 
-exports.getReviewById = async (req, res) => {
-    try {
-        const review = await reviewService.getReviewById(req.params.id);
-        res.status(200).json(review);
-    } catch (error) {
-        res.status(error.statusCode || 404).json({ message: error.message });
+    async getReviewById(req, res) {
+        try {
+            const review = await ReviewService.getReviewById(req.params.id);
+            if (!review) {
+                return res.status(404).json({ message: 'Đánh giá không tìm thấy.' });
+            }
+            res.json(review);
+        } catch (error) {
+            console.error("Error getting review:", error);
+            res.status(500).json({ message: error.message || 'Lỗi lấy đánh giá.' });
+        }
     }
-};
 
-exports.updateReview = async (req, res) => {
-    try {
-        const updatedReview = await reviewService.updateReview(req.params.id, req.body);
-        res.status(200).json(updatedReview);
-    } catch (error) {
-        res.status(error.statusCode || 404).json({ message: error.message });
+    async updateReview(req, res) {
+        try {
+            const updatedReview = await ReviewService.updateReview(req.params.id, req.body);
+            res.json(updatedReview);
+        } catch (error) {
+            console.error("Error updating review:", error);
+            res.status(error.statusCode || 500).json({ message: error.message || 'Lỗi cập nhật đánh giá.' });
+        }
     }
-};
 
-exports.deleteReview = async (req, res) => {
-    try {
-        await reviewService.deleteReview(req.params.id);
-        res.status(200).json({ message: 'Đánh giá đã được xoá' });
-    } catch (error) {
-        res.status(error.statusCode || 404).json({ message: error.message });
+    async deleteReview(req, res) {
+        try {
+            await ReviewService.deleteReview(req.params.id);
+            res.status(204).send();
+        } catch (error) {
+            console.error("Error deleting review:", error);
+            res.status(error.statusCode || 500).json({ message: error.message || 'Lỗi xóa đánh giá.' });
+        }
     }
-};
+}
+
+module.exports = new ReviewController();

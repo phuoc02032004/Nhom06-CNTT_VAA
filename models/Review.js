@@ -6,6 +6,11 @@ const reviewSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
+    order: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
+        required: true
+    },
     product: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
@@ -24,13 +29,8 @@ const reviewSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now
     }
 });
 
 const Review = mongoose.model('Review', reviewSchema);
-
 module.exports = Review;

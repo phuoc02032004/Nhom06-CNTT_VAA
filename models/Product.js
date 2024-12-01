@@ -50,10 +50,10 @@ const productSchema = new mongoose.Schema({
     manufacturer: {
         type: String
     },
-    reviews: {
-        type: Array,
-        default: []
-    },
+    reviews: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review'
+    }],
     createdAt: {
         type: Date,
         default: Date.now
