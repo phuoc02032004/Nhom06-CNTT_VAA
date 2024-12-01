@@ -1,47 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { getProductId } from '../../services/products';
-import { useParams } from 'react-router-dom';
-import { AddtoCart } from "../../services/cart"
+import React, { useState } from "react";
+import { AddtoCart } from "../../services/cart";
 
-const ProductCard = () => {
-    const { id } = useParams();
+const ProductCard = ({ product }) => {
     const [quantity, setQuantity] = useState(1);
-    const [product, setProduct] = useState([]);
+
     const increaseQuantity = () => {
-        setQuantity(prev => prev + 1);
-    };
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getProductId(id);
-                setProduct(response);
-            } catch (error) {
-                console.error("Error fetching product data:", error);
-            }
-        };
-        fetchData();
-    }, [id]);
-
-    const handleAddToCart = async () => {
-        try {
-            const userID = localStorage.getItem("userID");
-            console.log("userID:", userID);
-            console.log("productID:", id);
-            console.log("quantity:", quantity);
-            await AddtoCart(userID, id, quantity);
-            alert(`Added ${product.name} to cart`);
-        } catch (error) {
-            console.error("Error adding to cart:", error);
-            alert("Failed to add to cart. Please try again.");
-        }
+        setQuantity((prev) => prev + 1);
     };
 
     const decreaseQuantity = () => {
         if (quantity > 1) {
-            setQuantity(prev => prev - 1);
+            setQuantity((prev) => prev - 1);
         }
     };
+
+    const handleAddToCart = async () => {
+        try {
+            const userID = localStorage.getItem("userID");
+            await AddtoCart(userID, product._id, quantity);
+            alert(`Đã thêm ${product.name} vào giỏ hàng.`);
+        } catch (error) {
+            console.error("Error adding to cart:", error);
+            alert("Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.");
+        }
+    };
+
+    if (!product) {
+        return <p>Đang tải sản phẩm...</p>;
+    }
+
     return (
         <div className="bg-white p-8 max-w-4xl mx-auto">
             {/* Image Section */}
@@ -49,8 +36,12 @@ const ProductCard = () => {
                 {/* Product Image */}
                 <div className="flex-1 mb-6 md:mb-0">
                     <img
-                        src={product.images && product.images.length > 0 ? product.images[0].url : 'default-image-url'}
-                        alt="E Stud Bubble Butterfly"
+                        src={
+                            product.images && product.images.length > 0
+                                ? product.images[0].url
+                                : "default-image-url"
+                        }
+                        alt={product.name}
                         className="rounded-lg mx-auto md:mx-0"
                     />
                 </div>
@@ -61,7 +52,7 @@ const ProductCard = () => {
                     <h1 className="text-2xl font-bold mb-4">{product.name}</h1>
 
                     {/* Stock Status */}
-                    <p className="text-500 mb-2">
+                    <p className="text-gray-500 mb-2">
                         Tình trạng: {product.stock > 0 ? "Còn hàng" : "Hết hàng"}
                     </p>
                     <p className="text-gray-500 mb-4">Mã Sản Phẩm: {product._id}</p>
@@ -69,7 +60,7 @@ const ProductCard = () => {
 
                     {/* Product Price */}
                     <div className="text-3xl font-semibold text-brown-700 mb-4">
-                        {product.price}
+                        {product.price}₫
                     </div>
 
                     {/* Quantity Selector */}
@@ -92,8 +83,11 @@ const ProductCard = () => {
                         </div>
                     </div>
 
-                    <button class="bg-transparent hover:bg-[#2e1c11] text-[#2e1c11] font-semibold hover:text-white py-2 px-4 border border-[#2e1c11] hover:border-transparent rounded 
-                    w-96 mt-5" onClick={handleAddToCart}>
+                    {/* Add to Cart Button */}
+                    <button
+                        className="bg-transparent hover:bg-[#2e1c11] text-[#2e1c11] font-semibold hover:text-white py-2 px-4 border border-[#2e1c11] hover:border-transparent rounded w-96 mt-5"
+                        onClick={handleAddToCart}
+                    >
                         Thêm vào giỏ hàng
                     </button>
                 </div>

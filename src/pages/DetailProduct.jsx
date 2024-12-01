@@ -3,6 +3,7 @@ import PathName from "../components/UI/path";
 import ProductCard from "../components/UI/detail";
 import { useParams } from "react-router-dom";
 import { getProductId } from "../services/products";
+import Rating from "../components/UI/rate/rating";
 
 function App() {
   const { id } = useParams();
@@ -29,7 +30,10 @@ function App() {
           { label: product?.name, active: true },
         ]}
       />
-      <ProductCard />
+      <ProductCard product={product} />
+      <div style={{ padding: "20px", display: "flex", justifyContent: "center" }}>
+        <Rating product={product} />
+      </div>
     </div>
   );
 }
