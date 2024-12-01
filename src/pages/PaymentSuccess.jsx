@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import axios from "axios";
-import { removeCartItem } from "../services/cart";
-import { getCartByUserId } from "../services/cart";
 
 const PaymentSuccess = () => {
     const location = useLocation();
@@ -47,7 +45,6 @@ const PaymentSuccess = () => {
     useEffect(() => {
         if (isSuccess && shippingInfo) {
             const selectedProduct = sessionStorage.getItem("selectedItems");
-
             if (!selectedProduct) return;
 
             const parsedProduct = JSON.parse(selectedProduct);
@@ -58,33 +55,6 @@ const PaymentSuccess = () => {
             }));
 
             console.log("Products to order:", products);
-
-            if (selectedProduct) {
-                const parsedProduct = JSON.parse(selectedProduct);
-
-                products = parsedProduct.map(item => ({
-                    product: item.id,
-                    quantity: item.quantity,
-                    price: item.price,
-                }));
-
-                const userId = localStorage.getItem("userID")
-
-                const cartId = getCartByUserId(userId);
-
-                if (cartId) {
-                    products.forEach(async (item) => {
-                        try {
-                            const response = await removeCartItem(cartId, item.product);
-                            console.log(`Removed product ${item.product}:`, response);
-                        } catch (error) {
-                            console.error(`Error removing product ${item.product}:`, error.message);
-                        }
-                    });
-                }
-            }
-            console.log(products)
-
 
             const orderData = {
                 user: localStorage.getItem("userID"),
@@ -98,7 +68,7 @@ const PaymentSuccess = () => {
                     shippingInfo.district +
                     shippingInfo.ward,
                 products: products,
-                total: amount,
+                total: amount / 100,
                 status: "pending",
                 paymentMethod: "Online",
                 shippingMethod: "Standard",
