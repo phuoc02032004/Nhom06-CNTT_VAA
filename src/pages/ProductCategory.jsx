@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { getProducts } from "../services/products";
 import ProductList from "../components/UI/productBestSL";
 import PathName from "../components/UI/path";
-import { useLocation } from "react-router-dom"; // Import useLocation để nhận state
+import { getProductCategory } from "../services/products";
+import { getCategoryById } from "../services/category"; // API mới
+import { useParams } from "react-router-dom";
 
 const Section = ({ children, className, style }) => (
   <section className={className} style={style}>
@@ -26,13 +27,14 @@ const ImgTop = () => (
 
 function App() {
   const [products, setProducts] = useState([]);
-  const location = useLocation();
-  const { query, results } = location.state || { query: "", results: [] };
+  const [category, setCategory] = useState(null); // Thêm state để lưu thông tin category
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchProducts = async () => {
-      if (results && results.length > 0) {
-        const formattedResults = results.map((product) => ({
+      try {
+        const fetchedProducts = await getProductCategory(id);
+        const formattedProducts = fetchedProducts.map((product) => ({
           _id: product._id,
           image: product.images[0]?.url,
           title: product.name,
@@ -41,30 +43,24 @@ function App() {
             currency: "VND",
           }),
         }));
-        setProducts(formattedResults);
-      } else {
-        if (products.length === 0) {
-          try {
-            const fetchedProducts = await getProducts();
-            const formattedProducts = fetchedProducts.map((product) => ({
-              _id: product._id,
-              image: product.images[0]?.url,
-              title: product.name,
-              price: product.price.toLocaleString("vi-VN", {
-                style: "currency",
-                currency: "VND",
-              }),
-            }));
-            setProducts(formattedProducts);
-          } catch (error) {
-            console.error("Error fetching products:", error);
-          }
-        }
+        setProducts(formattedProducts);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    const fetchCategory = async () => {
+      try {
+        const categoryData = await getCategoryById(id); // Gọi API để lấy thông tin category
+        setCategory(categoryData);
+      } catch (error) {
+        console.error("Error fetching category:", error);
       }
     };
 
     fetchProducts();
-  }, [results, products.length]);
+    fetchCategory(); // Gọi thêm API để lấy thông tin category
+  }, [id]);
 
   return (
     <div className="imgTop">
@@ -73,18 +69,18 @@ function App() {
         <PathName
           paths={[
             { label: "Trang chủ", onClick: (navigate) => navigate("/") },
-            { label: "Trang Sức", active: true },
+            {
+              label: "Trang Sức",
+              onClick: (navigate) => navigate("/product"),
+            },
+            {
+              label: category?.name,
+              active: true,
+            },
           ]}
         />
       </div>
-      <div className="px-5">
-        {query && (
-          <h2 className="text-2xl font-semibold mb-4">
-            Kết quả tìm kiếm cho: "{query}"
-          </h2>
-        )}
-        <ProductList products={products} />
-      </div>
+      <ProductList products={products} />
     </div>
   );
 }

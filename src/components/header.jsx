@@ -1,12 +1,41 @@
-import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useRef, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.webp";
 import DropdownMenu from "./UI/TrangsucMenu";
 import { FaOpencart } from "react-icons/fa";
+import { searchProducts } from "../services/products";
 
 const Header = () => {
   const [openMenu, setOpenMenu] = useState(null);
+  const [searchVisible, setSearchVisible] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const closeTimeoutRef = useRef(null);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("userID");
+    const storedToken = localStorage.getItem("token");
+
+    if (storedUser && storedToken) {
+      try {
+        setUser(storedUser);
+        setToken(storedToken);
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu từ localStorage:", error);
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userID");
+    localStorage.removeItem("token");
+    setUser(null);
+    setToken(null);
+    navigate("/");
+  };
 
   const toggleMenu = (menuName) => {
     if (closeTimeoutRef.current) {
@@ -15,7 +44,17 @@ const Header = () => {
     }
     setOpenMenu(menuName);
   };
+  const handleSearch = async () => {
+    if (searchQuery.trim() === "") return;
 
+    try {
+      const results = await searchProducts(searchQuery);
+
+      navigate("/product", { state: { query: searchQuery, results } });
+    } catch (error) {
+      console.error("Search Error:", error);
+    }
+  };
   const handleMouseLeave = () => {
     closeTimeoutRef.current = setTimeout(() => {
       setOpenMenu(null);
@@ -45,26 +84,78 @@ const Header = () => {
             <FaOpencart className="text-brown-600 text-2xl cursor-pointer" />
           </Link>
 
-          <i className="ri-search-line text-brown-600 text-2xl"></i>
-          <div
-            className="relative"
-            onMouseEnter={() => toggleMenu("account")}
-            onMouseLeave={handleMouseLeave}
-          >
-            <i className="ri-user-line text-brown-600 text-2xl cursor-pointer"></i>
+          {/* Search Bar */}
+          <div className="relative">
+            <i
+              className="ri-search-line text-brown-600 text-2xl cursor-pointer"
+              onClick={() => setSearchVisible(!searchVisible)}
+            ></i>
 
-            {openMenu === "account" && (
-              <div className="absolute right-0 mt-2 bg-white border border-gray-300 shadow-lg w-40 p-3 z-50">
-                <ul>
-                  <li className="flex items-center space-x-2 text-gray-600 hover:text-black">
-                    <i className="ri-lock-line"></i>
-                    <Link to="/register">Đăng ký</Link>
-                  </li>
-                  <li className="flex items-center space-x-2 mt-2 text-gray-600 hover:text-black">
-                    <i className="ri-user-line"></i>
-                    <Link to="/login">Đăng nhập</Link>
-                  </li>
-                </ul>
+            {searchVisible && (
+              <div className="absolute right-0 mt-2 bg-white border border-gray-300 shadow-lg p-2 w-64">
+                <input
+                  type="text"
+                  placeholder="Nhập từ khóa..."
+                  className="border border-gray-300 p-2 w-full rounded"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button
+                  className="mt-2 bg-brown-600 text-black px-4 py-2 rounded w-full"
+                  onClick={handleSearch}
+                >
+                  Tìm kiếm
+                </button>
+              </div>
+            )}
+          </div>
+          {/* Kiểm tra nếu người dùng đã đăng nhập */}
+          <div className="relative">
+            {user ? (
+              <div
+                className="relative"
+                onMouseEnter={() => toggleMenu("account")}
+                onMouseLeave={handleMouseLeave}
+              >
+                <i className="ri-user-line text-brown-600 text-2xl cursor-pointer"></i>
+
+                {openMenu === "account" && (
+                  <div className="absolute right-0 mt-2 bg-white border border-gray-300 shadow-lg w-40 p-3 z-50">
+                    <ul>
+                      <li className="flex items-center space-x-2 text-gray-600 hover:text-black">
+                        <i className="ri-user-line"></i>
+                        <Link to="/profile">Hồ Sơ</Link>
+                      </li>
+                      <li className="flex items-center space-x-2 mt-2 text-gray-600 hover:text-black">
+                        <i className="ri-lock-line"></i>
+                        <span onClick={handleLogout} className="cursor-pointer">Đăng Xuất</span>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div
+                className="relative"
+                onMouseEnter={() => toggleMenu("account")}
+                onMouseLeave={handleMouseLeave}
+              >
+                <i className="ri-user-line text-brown-600 text-2xl cursor-pointer"></i>
+
+                {openMenu === "account" && (
+                  <div className="absolute right-0 mt-2 bg-white border border-gray-300 shadow-lg w-40 p-3 z-50">
+                    <ul>
+                      <li className="flex items-center space-x-2 text-gray-600 hover:text-black">
+                        <i className="ri-lock-line"></i>
+                        <Link to="/register">Đăng ký</Link>
+                      </li>
+                      <li className="flex items-center space-x-2 mt-2 text-gray-600 hover:text-black">
+                        <i className="ri-user-line"></i>
+                        <Link to="/login">Đăng nhập</Link>
+                      </li>
+                    </ul>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -120,7 +211,7 @@ const Header = () => {
                 >
                   <ul className="text-brown-600">
                     <li className=" pr-4 font-bold text-[#6b4226]  ">
-                      <Link to="/tin-tuc">Tin Tức</Link>
+                      <Link to="/news">Tin Tức</Link>
                     </li>
                     <li className="pr-4 font-bold text-[#6b4226] ">
                       <Link to="/su-kien">Sự Kiện</Link>
