@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import { getAllUsers, updateUser, deleteUser } from '../services/user';
 import 'tailwindcss/tailwind.css';
 
@@ -87,7 +86,6 @@ const UserManagement = () => {
 
   return (
     <>
-      <Breadcrumb pageName="User" />
       <div className="p-8 bg-gray-100 min-h-screen">
         {(editingUserId || viewingUser) && (
           <form

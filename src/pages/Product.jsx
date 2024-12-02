@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import {
   createProduct,
   getAllProducts,
@@ -209,7 +208,6 @@ const Productt = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Product" />
 
       <div className="container mx-auto ">
         <Button

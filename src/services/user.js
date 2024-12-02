@@ -1,29 +1,27 @@
 import axios from 'axios';
-// import jwt_decode from 'jwt-decode';
+import { jwtDecode } from "jwt-decode";
 
 const API_URL = 'http://localhost:3003/api/v1/users';
 
 export const loginAdmin = async (email, password) => {
   try {
-    const response = await axios.post(API_URL, {
+    const response = await axios.post(`${API_URL}/login`, {
       email,
-      password
+      password,
     });
 
-    // if (!response.data.token) {
-    //   throw new Error("Không có token trả về.");
-    // }
+    if (!response.data.token) {
+      throw new Error("Không có token trả về.");
+    }
 
-    // const { token } = response.data.token;
-    // const decoded = jwt_decode(token);
+    const token = response.data.token;
+    const decoded = jwtDecode(token);
 
-    // console.log(decodedToken);
+    if (decoded.role !== "admin") {
+      throw new Error("Bạn không có quyền truy cập admin.");
+    }
 
-    // if (decoded.role !== "admin") {
-    //   throw new Error("Bạn không có quyền truy cập admin.");
-    // }
-
-    // localStorage.setItem("adminToken", token);
+    localStorage.setItem("token", token);
 
     return response;
   } catch (error) {

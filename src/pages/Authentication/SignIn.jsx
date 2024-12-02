@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
 import { loginAdmin } from '../../services/user';
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +13,7 @@ const SignIn = () => {
     try {
       const response = await loginAdmin(email, password);
       console.log('Login successful:', response);
-      navigate("/");
+      window.location.href = "/";
     } catch (error) {
       setErrorMessage(error.message);
     }

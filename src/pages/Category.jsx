@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import TableCategory from '../components/Tables/TableCategory';
 import FormAddCategory from '../components/Forms/Category/AddCategory';
 
@@ -22,8 +21,6 @@ const Category = () => {
 
   return (
     <>
-      <Breadcrumb pageName="Category" />
-
       <div className="flex flex-col gap-10">
         <TableCategory refreshTable={refreshTable} />
         <div className="p-4 md:p-6 xl:p-9">

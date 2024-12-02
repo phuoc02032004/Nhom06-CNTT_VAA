@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import DropdownUser from './DropdownUser';
 import DarkModeSwitcher from './DarkModeSwitcher';
 
 const Header = (props: {
@@ -94,9 +93,6 @@ const Header = (props: {
             <DarkModeSwitcher />
           </ul>
 
-          {/* <!-- User Area --> */}
-          <DropdownUser />
-          {/* <!-- User Area --> */}
         </div>
       </div>
     </header>

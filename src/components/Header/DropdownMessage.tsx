@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ClickOutside from '../ClickOutside';
 
 import UserOne from '../../images/user/user-01.png';
 import UserTwo from '../../images/user/user-02.png';
@@ -12,7 +11,6 @@ const DropdownMessage = () => {
   const [notifying, setNotifying] = useState(true);
 
   return (
-    <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
       <li className="relative">
         <Link
           onClick={() => {
@@ -162,7 +160,6 @@ const DropdownMessage = () => {
         )}
         {/* <!-- Dropdown End --> */}
       </li>
-    </ClickOutside>
   );
 };
 
