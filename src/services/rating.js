@@ -90,7 +90,7 @@ const reviewApi = {
 
   getReviewsByProduct: async (productId) => {
     try {
-      const response = await apiClient.get(`/${productId}/product`);
+      const response = await apiClient.get(`/product/${productId}`);
       return response.data;
     } catch (error) {
       console.error(

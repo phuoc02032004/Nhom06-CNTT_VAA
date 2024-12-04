@@ -26,7 +26,10 @@ const Rating = ({ product }) => {
   // Fetch all reviews on component mount
   useEffect(() => {
     const fetchReviews = async () => {
-      if (!product?._id) return;
+      if (!product || !product._id) {
+        console.error("Product data is missing or invalid.");
+        return;
+      }
       try {
         setLoading(true);
         const fetchedReviews = await reviewApi.getReviewsByProduct(product._id);
@@ -141,7 +144,7 @@ const Rating = ({ product }) => {
         <ReviewModal
           toggleModal={toggleModal}
           addReview={addReview}
-          productId={product._id}
+          productId={product._id || { _id: null, name: "Sản phẩm chưa xác định" }}
         />
       )}
       {error && <p className="text-red-500 mt-4">{error}</p>}
