@@ -44,3 +44,13 @@ exports.deleteOrder = async (req, res) => {
         res.status(error.statusCode || 404).json({ message: error.message });
     }
 };
+
+exports.getOrdersByUserId = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const orders = await orderService.getOrdersByUserId(userId);
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(error.statusCode || 404).json({ message: error.message });
+    }
+};
