@@ -32,7 +32,7 @@ function App() {
       />
       <ProductCard product={product} />
       <div style={{ padding: "20px", display: "flex", justifyContent: "center" }}>
-        <Rating product={product} />
+        <Rating product={product || { _id: null, name: "Sản phẩm chưa xác định" }} />
       </div>
     </div>
   );

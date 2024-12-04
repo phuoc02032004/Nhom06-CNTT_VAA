@@ -4,7 +4,7 @@ import StarDistribution from "./StarDistribution";
 import ReviewList from "./ReviewList";
 import ReviewModal from "./ReviewModal";
 
-const Rating = ({ productId, product }) => {
+const Rating = ({ product }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,9 +26,10 @@ const Rating = ({ productId, product }) => {
   // Fetch all reviews on component mount
   useEffect(() => {
     const fetchReviews = async () => {
+      if (!product?._id) return;
       try {
         setLoading(true);
-        const fetchedReviews = await reviewApi.getReviewsByProduct(productId);
+        const fetchedReviews = await reviewApi.getReviewsByProduct(product._id);
         setReviews(fetchedReviews);
         calculateRatings(fetchedReviews);
       } catch (err) {
@@ -40,7 +41,7 @@ const Rating = ({ productId, product }) => {
     };
 
     fetchReviews();
-  }, [productId]);
+  }, [product._id]);
 
   // Calculate star distribution and average rating
   const calculateRatings = (reviews) => {
@@ -109,11 +110,10 @@ const Rating = ({ productId, product }) => {
             <button
               key={filterOption}
               onClick={() => setFilter(filterOption)}
-              className={`px-4 py-2 border rounded-lg ${
-                filter === filterOption
-                  ? "bg-red-500 text-white"
-                  : "bg-white text-gray-700"
-              }`}
+              className={`px-4 py-2 border rounded-lg ${filter === filterOption
+                ? "bg-red-500 text-white"
+                : "bg-white text-gray-700"
+                }`}
             >
               {filterOption}
             </button>
@@ -141,7 +141,7 @@ const Rating = ({ productId, product }) => {
         <ReviewModal
           toggleModal={toggleModal}
           addReview={addReview}
-          productId={productId}
+          productId={product._id}
         />
       )}
       {error && <p className="text-red-500 mt-4">{error}</p>}
