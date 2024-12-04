@@ -11,7 +11,7 @@ const reviewSchema = new mongoose.Schema({
         ref: 'Product',
         required: true
     },
-    order: { 
+    order: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Order',
     },

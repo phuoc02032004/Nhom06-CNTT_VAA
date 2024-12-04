@@ -1,16 +1,46 @@
 const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
     try {
-        const token = req.header('Authorization').replace('Bearer ', '');
+        const authHeader = req.header('Authorization');
+        console.log('Authorization Header:', authHeader);
+
+        if (!authHeader) {
+            console.log('No authorization header found.');
+            return res.status(401).json({ message: 'Token xác thực không được tìm thấy' });
+        }
+
+        const token = authHeader.split(' ')[1];
+        console.log('Token:', token);
+
+        if (!token) {
+            console.log('Invalid token format.');
+            return res.status(401).json({ message: 'Định dạng token không hợp lệ' });
+        }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        console.log('Decoded token:', decoded);
 
-        req.user = decoded;
+        const user = await User.findById(decoded.id);
+        console.log('Found user:', user);
 
+        if (!user) {
+            console.log('User not found.');
+            return res.status(404).json({ message: 'Người dùng không tồn tại' });
+        }
+
+        req.user = user;
         next();
     } catch (error) {
-        res.status(401).json({ message: 'Bạn cần đăng nhập' });
+        console.error("Lỗi xác thực:", error);
+        let message = 'Lỗi xác thực';
+        if (error.name === 'TokenExpiredError') {
+            message = 'Token đã hết hạn';
+        } else if (error.name === 'JsonWebTokenError') {
+            message = 'Token không hợp lệ';
+        }
+        res.status(401).json({ message });
     }
 };
 

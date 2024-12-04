@@ -1,4 +1,5 @@
 const Product = require('../models/Product');
+const Order = require('../models/Order');
 const cloudinaryConfig = require('../config/cloudinaryConfig');
 const { Readable } = require('stream');
 
@@ -95,4 +96,28 @@ exports.getProductsByCategory = async (categoryId) => {
 exports.searchProduct = async (q) => {
     if (!q) throw new Error('Search query is required.');
     return await Product.find({ name: { $regex: q, $options: 'i' } }).populate('category');
+};
+
+exports.getProductBuyersAndOrders = async (productId) => {
+    const orders = await Order.find({ 'products.product': productId })
+        .populate('user', 'name email') // Populate user name and email
+        .select('user _id products createdAt'); // Select necessary fields
+
+    if (!orders || orders.length === 0) {
+        return { message: 'No orders found for this product.' }; // Trả về một object có message thay vì throw error
+    }
+
+    const buyersAndOrders = orders.map(order => {
+        const user = order.user; // Access user directly
+        return {
+            userId: user._id,
+            userName: user.name || 'Người dùng không xác định', // Handle null or undefined name
+            userEmail: user.email || 'Email không xác định', // Handle null or undefined email
+            orderId: order._id,
+            orderDate: order.createdAt,
+            products: order.products.find(p => p.product.equals(productId)), // Find the specific product in the order
+        };
+    });
+
+    return buyersAndOrders;
 };
