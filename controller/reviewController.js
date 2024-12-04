@@ -73,6 +73,17 @@ class ReviewController {
             res.status(500).json({ message: error.message || 'Lỗi lấy reviews.' });
         }
     }
+
+    async getReviewsByRating(req, res) {
+        try {
+            const rating = parseInt(req.params.rating, 10);
+            const reviews = await ReviewService.getReviewsByRating(rating);
+            res.json(reviews);
+        } catch (error) {
+            console.error("Error getting reviews by rating:", error);
+            res.status(error.statusCode || 400).json({ message: error.message });
+        }
+    }
 }
 
 module.exports = new ReviewController();

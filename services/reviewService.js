@@ -3,20 +3,19 @@ const Product = require('../models/Product');
 
 class ReviewService {
     async createReview(reviewData) {
-        const { orderId, productId, rating, comment, userId, replies } = reviewData;
+        const { productId, rating, comment, userId, replies } = reviewData;
 
-        if (!orderId || !productId || !rating || !userId || rating < 1 || rating > 5 || !comment) {
+        if (!productId || !rating || !userId || rating < 1 || rating > 5 || !comment) {
             throw new Error('Dữ liệu đầu vào không hợp lệ.');
         }
 
-        const existingReview = await Review.findOne({ user: userId, product: productId, order: orderId });
+        const existingReview = await Review.findOne({ user: userId, product: productId });
         if (existingReview) {
             throw new Error('Bạn đã đánh giá sản phẩm này rồi.');
         }
 
         const newReview = new Review({
             user: userId,
-            order: orderId,
             product: productId,
             rating,
             comment,
@@ -70,6 +69,13 @@ class ReviewService {
 
     async getReviewsByProduct(productId) {
         return Review.find({ product: productId }).populate('user order replies.user').sort({ createdAt: -1 });
+    }
+
+    async getReviewsByRating(rating) {
+        if (isNaN(rating) || rating < 1 || rating > 5) {
+            throw new Error('Invalid rating. Rating must be a number between 1 and 5.');
+        }
+        return Review.find({ rating: rating }).populate('user product order replies.user');
     }
 }
 
