@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getProducts } from "../services/products";
 import ProductList from "../components/UI/productBestSL";
 import PathName from "../components/UI/path";
-import { useLocation } from "react-router-dom"; // Import useLocation để nhận state
+import { useLocation } from "react-router-dom";
 
 const Section = ({ children, className, style }) => (
   <section className={className} style={style}>
