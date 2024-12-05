@@ -128,7 +128,9 @@ const Header = () => {
                       </li>
                       <li className="flex items-center space-x-2 mt-2 text-gray-600 hover:text-black">
                         <i className="ri-lock-line"></i>
-                        <span onClick={handleLogout} className="cursor-pointer">Đăng Xuất</span>
+                        <span onClick={handleLogout} className="cursor-pointer">
+                          Đăng Xuất
+                        </span>
                       </li>
                     </ul>
                   </div>

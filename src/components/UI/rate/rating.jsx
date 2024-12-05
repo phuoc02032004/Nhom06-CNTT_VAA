@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import reviewApi from "../../../services/rating";
+import { getReviewsByProduct, createReview } from "../../../services/rating";
 import StarDistribution from "./StarDistribution";
 import ReviewList from "./ReviewList";
 import ReviewModal from "./ReviewModal";
@@ -32,7 +32,7 @@ const Rating = ({ product }) => {
       }
       try {
         setLoading(true);
-        const fetchedReviews = await reviewApi.getReviewsByProduct(product._id);
+        const fetchedReviews = await getReviewsByProduct(product._id);
         setReviews(fetchedReviews);
         calculateRatings(fetchedReviews);
       } catch (err) {
@@ -77,7 +77,7 @@ const Rating = ({ product }) => {
 
   const addReview = async (newReview) => {
     try {
-      const response = await reviewApi.createReview(newReview);
+      const response = await createReview(newReview);
       setReviews((prev) => [response, ...prev]);
       calculateRatings([response, ...reviews]);
     } catch (err) {
@@ -113,10 +113,11 @@ const Rating = ({ product }) => {
             <button
               key={filterOption}
               onClick={() => setFilter(filterOption)}
-              className={`px-4 py-2 border rounded-lg ${filter === filterOption
-                ? "bg-red-500 text-white"
-                : "bg-white text-gray-700"
-                }`}
+              className={`px-4 py-2 border rounded-lg ${
+                filter === filterOption
+                  ? "bg-red-500 text-white"
+                  : "bg-white text-gray-700"
+              }`}
             >
               {filterOption}
             </button>
@@ -144,7 +145,9 @@ const Rating = ({ product }) => {
         <ReviewModal
           toggleModal={toggleModal}
           addReview={addReview}
-          productId={product._id || { _id: null, name: "Sản phẩm chưa xác định" }}
+          productId={
+            product._id || { _id: null, name: "Sản phẩm chưa xác định" }
+          }
         />
       )}
       {error && <p className="text-red-500 mt-4">{error}</p>}

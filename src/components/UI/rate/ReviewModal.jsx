@@ -10,7 +10,7 @@ const ReviewModal = ({ toggleModal, addReview, productId }) => {
       return;
     }
     const newReview = {
-      userId: localStorage.getItem('userID'),
+      userId: localStorage.getItem("userID"),
       productId: productId,
       rating: userRating,
       comment: review,
@@ -30,8 +30,9 @@ const ReviewModal = ({ toggleModal, addReview, productId }) => {
               <button
                 key={star}
                 onClick={() => setUserRating(star)}
-                className={`text-3xl ${star <= userRating ? "text-yellow-500" : "text-gray-300"
-                  }`}
+                className={`text-3xl ${
+                  star <= userRating ? "text-yellow-500" : "text-gray-300"
+                }`}
               >
                 ★
               </button>
