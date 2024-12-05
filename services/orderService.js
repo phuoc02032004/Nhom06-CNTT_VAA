@@ -28,8 +28,8 @@ exports.deleteOrder = async (id) => {
     return deletedOrder;
 };
 
-exports.getOrdersByUserId = async (userId) => {
-    const orders = await Order.find({ user: userId }).populate('products.product');
+exports.getOrdersByUserId = async (user) => {
+    const orders = await Order.find({ user: user }).populate('products.product');
     if (!orders) throw new Error('User has no orders');
     return orders;
 };

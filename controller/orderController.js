@@ -47,8 +47,8 @@ exports.deleteOrder = async (req, res) => {
 
 exports.getOrdersByUserId = async (req, res) => {
     try {
-        const userId = req.params.userId;
-        const orders = await orderService.getOrdersByUserId(userId);
+        const user = req.params.user;
+        const orders = await orderService.getOrdersByUserId(user);
         res.status(200).json(orders);
     } catch (error) {
         res.status(error.statusCode || 404).json({ message: error.message });
